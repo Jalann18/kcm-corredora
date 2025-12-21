@@ -1,0 +1,9 @@
+Django==5.2.7
+django-filter==25.1
+python-dotenv==1.2.1
+whitenoise==6.11.0
+cloudinary==1.44.1
+django-cloudinary-storage==0.3.0
+Pillow==11.3.0
+gunicorn
+mysqlclient
