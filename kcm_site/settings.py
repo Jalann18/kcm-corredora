@@ -20,7 +20,7 @@ ALLOWED_HOSTS = (
 )
 
 CSRF_TRUSTED_ORIGINS = (
-    os.environ.get("DJANGO_CSRF_TRUSTED", "").split(",")
+    [o.strip() for o in os.environ.get("DJANGO_CSRF_TRUSTED", "").split(",") if o.strip()]
     if not DEBUG
     else []
 )
