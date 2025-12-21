@@ -1,0 +1,175 @@
+{% extends 'core/base.html' %}
+{% block title %}Publica tu propiedad | KCM{% endblock %}
+
+{# ====== HERO SECCIÓN SUPERIOR ====== #}
+{% block fullwidth %}
+<section class="hero-publicar position-relative mb-0">
+  <img
+    src="{{ hero_url|default:'/static/core/img/hero-publicar.jpg' }}"
+    alt="Publica tu propiedad"
+    class="hero-img"
+  >
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content text-white px-3 w-100">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-10 text-center">
+          <h1 class="mb-2 text-break">PUBLICA TU PROPIEDAD CON KCM</h1>
+          <p class="lead mb-0 text-break">
+            Vende o arrienda más rápido: evaluación honesta, fotos pro y difusión en los portales clave.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+
+{# ====== PROCESO DE CONTACTO ====== #}
+<section class="text-center py-3 bg-body-tertiary">
+  <div class="container">
+    <h2 class="h4 fw-bold mb-4">¿Cómo funciona el proceso?</h2>
+
+    <div class="row g-4 justify-content-center">
+      <!-- Paso 1 -->
+      <div class="col-12 col-md-4">
+        <div class="d-flex flex-column align-items-center">
+          <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-3"
+               style="width:80px;height:80px;">
+            <i class="bi bi-chat-dots fs-1"></i>
+          </div>
+          <h3 class="h6 fw-bold mb-1">1. Te contactamos</h3>
+          <p class="text-secondary small mb-0">Déjanos tus datos y en minutos un asesor se comunica contigo.</p>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="col-12 col-md-4">
+        <div class="d-flex flex-column align-items-center">
+          <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-3"
+               style="width:80px;height:80px;">
+            <i class="bi bi-house-check fs-1"></i>
+          </div>
+          <h3 class="h6 fw-bold mb-1">2. Evaluamos tu propiedad</h3>
+          <p class="text-secondary small mb-0">Visitamos, tomamos fotos profesionales y definimos el valor justo.</p>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="col-12 col-md-4">
+        <div class="d-flex flex-column align-items-center">
+          <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-3"
+               style="width:80px;height:80px;">
+            <i class="bi bi-megaphone fs-1"></i>
+          </div>
+          <h3 class="h6 fw-bold mb-1">3. Publicamos y gestionamos</h3>
+          <p class="text-secondary small mb-0">Difundimos en portales clave y gestionamos los interesados por ti.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ====== INTRO ====== #}
+<section class="seccion-intro text-center mt-1 pb-5">
+  <div class="container">
+    <h2 class="h3 fw-bold mb-2">Rellena el siguiente formulario</h2>
+    <p class="text-secondary mb-0">
+      Déjanos tus datos y los detalles básicos. Un asesor te contactará en minutos para coordinar la publicación.
+    </p>
+  </div>
+</section>
+
+{# ====== FORMULARIO ====== #}
+<section class="seccion-formulario">
+  <div class="card border-0 shadow-sm  bg-body-secondary">
+    <div class="p-4 p-md-5">
+      <div class="mb-3">
+        <h3 class="h4 fw-bold mb-1">Detalles de la propiedad</h3>
+        <p class="text-secondary mb-0 small">Cuéntanos lo esencial. Si te falta algo, lo vemos en la llamada.</p>
+      </div>
+
+      <form method="post" class="row g-3" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="col-12 col-md-6">
+          <label for="id_nombre" class="form-label small text-secondary mb-1">Nombre</label>
+          {{ form.nombre }}
+          {% if form.nombre.errors %}<div class="invalid-feedback d-block">{{ form.nombre.errors|striptags }}</div>{% endif %}
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="id_email" class="form-label small text-secondary mb-1">Email</label>
+          {{ form.email }}
+          {% if form.email.errors %}<div class="invalid-feedback d-block">{{ form.email.errors|striptags }}</div>{% endif %}
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="id_telefono" class="form-label small text-secondary mb-1">Teléfono</label>
+          {{ form.telefono }}
+          {% if form.telefono.errors %}<div class="invalid-feedback d-block">{{ form.telefono.errors|striptags }}</div>{% endif %}
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="id_tipo_propiedad" class="form-label small text-secondary mb-1">Tipo de propiedad</label>
+          {{ form.tipo_propiedad }}
+          {% if form.tipo_propiedad.errors %}<div class="invalid-feedback d-block">{{ form.tipo_propiedad.errors|striptags }}</div>{% endif %}
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="id_tipo_operacion" class="form-label small text-secondary mb-1">Tipo de transacción</label>
+          {{ form.tipo_operacion }}
+          {% if form.tipo_operacion.errors %}<div class="invalid-feedback d-block">{{ form.tipo_operacion.errors|striptags }}</div>{% endif %}
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="id_comuna" class="form-label small text-secondary mb-1">Comuna</label>
+          {{ form.comuna }}
+          {% if form.comuna.errors %}<div class="invalid-feedback d-block">{{ form.comuna.errors|striptags }}</div>{% endif %}
+        </div>
+
+
+        <div class="col-12 col-md-6">
+          <label for="id_precio_referencial" class="form-label small text-secondary mb-1">Valor propuesto (UF)</label>
+          {{ form.precio_referencial }}
+          <div class="form-text"></div>
+          {% if form.precio_referencial.errors %}<div class="invalid-feedback d-block">{{ form.precio_referencial.errors|striptags }}</div>{% endif %}
+        </div>
+
+        <div class="col-12">
+          <label for="id_mensaje" class="form-label small text-secondary mb-1">Mensaje (opcional)</label>
+          {{ form.mensaje }}
+          {% if form.mensaje.errors %}<div class="invalid-feedback d-block">{{ form.mensaje.errors|striptags }}</div>{% endif %}
+        </div>
+
+        <div class="col-12 pt-2">
+          <button class="btn btn-primary px-4 py-2">Enviar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+{# ====== SCRIPT CLP ====== #}
+<script>
+  (function () {
+    const price = document.getElementById("id_precio_referencial");
+    function formatCLP(el) {
+      const raw = (el.value || "").replace(/[^\d]/g, "");
+      el.value = raw ? new Intl.NumberFormat("es-CL").format(parseInt(raw,10)) : "";
+    }
+    if (price) {
+      price.setAttribute("inputmode", "numeric");
+      price.addEventListener("input", () => formatCLP(price));
+      formatCLP(price);
+    }
+  })();
+</script>
+
+{% endblock %}

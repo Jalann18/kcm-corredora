@@ -1,0 +1,436 @@
+/* =========================================================
+   1) FUENTE GENERAL
+========================================================= */
+body {
+  font-family: Lato, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* =========================================================
+   2) NAVBAR Y BÚSQUEDA RESPONSIVE
+========================================================= */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: var(--bs-body-bg);
+  border-bottom: 1px solid var(--bs-border-color);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1055;
+}
+.search-overlay.active {
+  display: flex;
+  animation: fadeIn 0.2s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Solo mostrar la lupa entre 992–1199 px */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .navbar .search-form { display: none !important; }
+  .navbar .search-toggle { display: inline-flex !important; }
+}
+/* En el resto, mostrar form y ocultar la lupa */
+.navbar .search-toggle { display: none; }
+
+/* =========================================================
+   3) HERO / ENCABEZADOS CON IMAGEN
+========================================================= */
+.hero-img-wrapper {
+  height: 35vh;
+  overflow: hidden;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+@media (min-width: 768px)  { .hero-img-wrapper { height: 50vh; } }
+@media (min-width: 1200px) { .hero-img-wrapper { height: 75vh; } }
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5));
+  z-index: 1;
+}
+
+/* === Hero Publicar === */
+.hero-publicar {
+  position: relative;
+  height: 35vh;
+  overflow: hidden;
+}
+.hero-publicar .hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.hero-publicar .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.45), rgba(0,0,0,.55));
+  z-index: 1;
+}
+.hero-publicar .hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  max-width: 900px;
+}
+@media (min-width: 768px)  { .hero-publicar { height: 50vh; } }
+@media (min-width: 1200px) { .hero-publicar { height: 70vh; } }
+
+/* =========================================================
+   4) GALERÍA PRINCIPAL (detalle propiedad)
+========================================================= */
+.carousel-inner.aspect-ratio-16x9 {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+.carousel-img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+@media (min-width: 1200px) {
+  .carousel-inner.aspect-ratio-16x9 { max-height: 620px; }
+}
+
+/* =========================================================
+   5) MINIATURAS (THUMBNAILS) GALERÍA
+========================================================= */
+.thumb-indicator {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  border-radius: 0.5rem;
+  flex: 0 0 auto;
+}
+.thumb-img {
+  height: 72px;
+  width: 96px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  display: block;
+  opacity: 0.8;
+  transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
+}
+.thumb-indicator.active .thumb-img,
+.thumb-indicator:hover .thumb-img {
+  opacity: 1;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.6);
+  transform: translateY(-1px);
+  cursor: pointer;
+}
+
+/* === Tira horizontal de miniaturas === */
+.thumbs-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.thumbs-strip {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+.thumbs-strip::-webkit-scrollbar { display: none; }
+.thumbs-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(2px);
+}
+.thumbs-prev { left: -12px; }
+.thumbs-next { right: -12px; }
+@media (min-width: 576px) {
+  .thumbs-btn {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  .thumbs-wrapper:hover .thumbs-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* =========================================================
+   6) ACCESIBILIDAD / REDUCIR MOVIMIENTO
+========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .thumbs-strip { scroll-behavior: auto; }
+  .thumb-img { transition: none; }
+}
+
+/* =========================================================
+   7) TIPOGRAFÍA Y UTILIDADES
+========================================================= */
+.text-justify {
+  text-align: justify;
+  text-wrap: pretty;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+.no-resize { resize: none; }
+.logo-navbar { height: 90px; width: auto; }
+.navbar-brand { overflow: visible; }
+.letter-spacing-1 { letter-spacing: .06em; }
+.ratio-3x4 { aspect-ratio: 3 / 4; }
+
+/* =========================================================
+   8) BOTONES
+========================================================= */
+.btn-cta {
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 0.6rem 1.4rem;
+}
+.btn-hero {
+  padding: .85rem 1.1rem;
+  font-weight: 600;
+  border-width: 1.5px;
+}
+/* Outline blanco más visible */
+.btn-outline-light {
+  --bs-btn-color:#fff;
+  --bs-btn-border-color:rgba(255,255,255,.7);
+  --bs-btn-hover-bg:rgba(255,255,255,.18);
+  --bs-btn-hover-border-color:#fff;
+  --bs-btn-active-bg:rgba(255,255,255,.28);
+  --bs-btn-active-border-color:#fff;
+}
+/* Botón detalle un poquito más grande */
+.btn-detail {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+/* =========================================================
+   9) CARDS / TARJETAS
+========================================================= */
+.card.shadow-sm {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card.shadow-sm:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.25rem rgba(0, 0, 0, 0.08);
+}
+/* Imagen uniforme en cards */
+.card-img-fixed {
+  height: 220px;      /* ajusta a tu gusto: 200–260px */
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Igualar altura para alinear botones */
+.card.h-100 { display: flex; flex-direction: column; }
+.card .card-body { flex: 1 1 auto; }
+
+/* =========================================================
+   10) MAPA RESPONSIVO (IFRAME)
+========================================================= */
+.map-embed {
+  width: 100%;
+  height: 360px;
+  display: block;
+  border: 0;
+  border-radius: 0.75rem;
+}
+@media (min-width: 1200px){ .map-embed { height: 420px; } }
+
+/* =========================================================
+   11) CTA PROCESO (HOME)
+========================================================= */
+.cta-proceso {
+  --cta-img: url('/static/core/img/hero-proceso.jpg');
+  background: var(--bs-body-bg) no-repeat center/cover;
+  background-image: var(--cta-img);
+  min-height: 520px;
+}
+.cta-proceso__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,.10) 0%,
+    rgba(0,0,0,.18) 40%,
+    rgba(0,0,0,.36) 72%,
+    rgba(0,0,0,.46) 100%);
+}
+.cta-proceso__card {
+  position: relative;
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+  background: rgba(17,17,17,.55);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
+  max-width: 720px;
+  margin-left: auto;
+}
+.cta-proceso__title {
+  font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2.1rem);
+  line-height: 1.15;
+}
+.cta-proceso__lead {
+  color: rgba(255,255,255,.9);
+  font-size: clamp(.96rem, .9rem + .3vw, 1.05rem);
+}
+/* Responsive tweaks CTA */
+@media (max-width: 991.98px){
+  .cta-proceso { min-height: 0; }
+  .cta-proceso__overlay {
+    background: linear-gradient(180deg,
+      rgba(0,0,0,.38) 0%,
+      rgba(0,0,0,.42) 55%,
+      rgba(0,0,0,.30) 100%);
+  }
+  .cta-proceso__card { margin-left: 0; }
+}
+
+/* =========================================================
+   12) FOOTER KCM
+========================================================= */
+.footer-kcm { background-color: #111; }
+.footer-kcm .footer-top {
+  background: linear-gradient(to bottom right, #151515, #1f1f1f);
+}
+.footer-kcm .footer-logo { height: 110px; width: auto; }
+.footer-kcm .footer-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+.footer-kcm .footer-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+.footer-kcm .footer-social {
+  transition: color 0.2s ease-in-out, transform 0.2s;
+}
+.footer-kcm .footer-social:hover {
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+@media (max-width: 576px) {
+  .footer-kcm .footer-top { text-align: center; }
+  .footer-kcm .footer-logo { height: 110px; }
+}
+
+/* =========================================================
+   13) VALORES — PARALLAX (Nosotros)
+========================================================= */
+.valores-parallax {
+  position: relative;
+  isolation: isolate; /* perf: overlay aislado */
+  background-image: url("/static/core/img/valores-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* parallax */
+  --overlay: rgba(0, 0, 0, 0.76);
+  border-radius: 0.5rem;  /* redondea toda la sección */
+  overflow: hidden;       /* evita que la imagen sobresalga */
+  opacity: 0;
+  transition: opacity .6s ease-in-out;
+}
+.valores-parallax.loaded { opacity: 1; }
+.valores-parallax::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--overlay), var(--overlay));
+  z-index: -1; /* detrás del contenido */
+}
+.valores-parallax h2,
+.valores-parallax p,
+.valores-parallax .text-secondary {
+  color: #fff !important;
+}
+.valores-parallax .valor-card {
+  background: rgba(255, 255, 255, 0.116);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255,255,255,0.35);
+}
+/* iOS/móviles: desactivar fixed por performance */
+@media (max-width: 991.98px) {
+  .valores-parallax {
+    background-attachment: scroll;
+    background-position: center;
+  }
+}
+
+/* =========================================================
+   14) INDICADORES DE CARRUSEL (Destacadas/Recientes)
+   — Rayitas + más espacio
+========================================================= */
+
+/* Más aire bajo todo el carrusel */
+#sliderDestacadas,
+#sliderRecientes {
+  margin-bottom: 3rem;        /* <<< sube si quieres aún más: 4rem o 5rem */
+}
+
+/* Indicadores como barras y colocados debajo del carrusel */
+#sliderDestacadas .carousel-indicators,
+#sliderRecientes  .carousel-indicators {
+  position: static;           /* quita el absolute de Bootstrap */
+  margin-top: 2rem;           /* <<< distancia entre las cards y las rayitas */
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* Botones como barras */
+#sliderDestacadas .carousel-indicators [data-bs-target],
+#sliderRecientes  .carousel-indicators [data-bs-target] {
+  width: 28px;
+  height: 4px;
+  border-radius: 10px;
+  background-color: rgba(0,0,0,.3);
+  margin: 0 6px;
+  transition: all .3s ease;
+  border: 0;
+}
+
+/* Activo: más largo y color de marca */
+#sliderDestacadas .carousel-indicators .active,
+#sliderRecientes  .carousel-indicators .active {
+  background-color: var(--bs-primary);
+  width: 36px;
+}
+
+/* =========================================================
+   15) SECCIONES "PUBLICAR"
+========================================================= */
+.seccion-intro { padding: 3rem 0; }
+@media (min-width: 768px){ .seccion-intro { padding: 4rem 0; } }
+.seccion-formulario { padding-bottom: 5rem; }

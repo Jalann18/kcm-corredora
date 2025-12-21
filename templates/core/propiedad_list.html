@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% block title %}Propiedades | KCM{% endblock %}
+{% block content %}
+
+<h1 class="mb-4 mt-3 fw-normal fs-4 text-muted text-uppercase">
+  {{ titulo|default:"Propiedades disponibles" }}
+</h1>
+
+<nav class="navbar bg-body-secondary px-3 mb-4 py-4">
+  <div class="container-fluid">
+    <form method="get" class="d-flex flex-wrap flex-xl-nowrap gap-2 align-items-center w-100">
+      <div class="flex-grow-1 flex-sm-grow-0 w-100 w-xl-auto" style="min-width:160px;">{{ form.tipo_operacion }}</div>
+      <div class="flex-grow-1 flex-sm-grow-0 w-100 w-xl-auto" style="min-width:180px;">{{ form.tipo_propiedad }}</div>
+      <div class="flex-grow-1 flex-sm-grow-0 w-100 w-xl-auto" style="min-width:200px;">{{ form.comuna }}</div>
+
+      <div class="d-flex gap-2 justify-content-center justify-content-xl-end w-100 w-xl-auto ms-xl-auto mt-2 mt-xl-0">
+        <button class="btn btn-secondary flex-fill flex-xl-none" type="submit">Buscar</button>
+        <a class="btn btn-secondary flex-fill flex-xl-none" href="{% url 'core:propiedad_list' %}">Limpiar</a>
+      </div>
+    </form>
+  </div>
+</nav>
+
+<!-- GRID: cada card expone precios via data-price-* para JS -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  {% for p in propiedades %}
+    <div class="col">
+      {% include 'core/_card_propiedad.html' with p=p %}
+    </div>
+  {% empty %}
+    <p>No encontramos propiedades con esos filtros.</p>
+  {% endfor %}
+</div>
+
+{% if propiedades.paginator.num_pages > 1 %}
+<nav class="mt-4" aria-label="Paginación de propiedades">
+  <ul class="pagination justify-content-center flex-wrap">
+    {% if propiedades.has_previous %}
+      <li class="page-item">
+        <a class="page-link bg-white text-dark"
+           href="?{% if qs %}{{ qs }}&{% endif %}page={{ propiedades.previous_page_number }}">
+          &laquo; Anterior
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link bg-white text-dark">&laquo; Anterior</span>
+      </li>
+    {% endif %}
+
+    {% for num in propiedades.paginator.page_range %}
+      {% if num == propiedades.number %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link bg-dark text-white border-dark">{{ num }}</span>
+        </li>
+      {% elif num >= propiedades.number|add:-2 and num <= propiedades.number|add:2 %}
+        <li class="page-item">
+          <a class="page-link bg-white text-dark"
+             href="?{% if qs %}{{ qs }}&{% endif %}page={{ num }}">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if propiedades.has_next %}
+      <li class="page-item">
+        <a class="page-link bg-white text-dark"
+           href="?{% if qs %}{{ qs }}&{% endif %}page={{ propiedades.next_page_number }}">
+          Siguiente &raquo;
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link bg-white text-dark">Siguiente &raquo;</span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

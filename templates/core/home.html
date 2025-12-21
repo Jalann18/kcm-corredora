@@ -1,0 +1,174 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+
+{% block title %}Inicio | KCM{% endblock %}
+
+{# === HERO FULL-WIDTH SIN TEXTO (carrusel superior) === #}
+{% block fullwidth %}
+  {% if slides %}
+  <div class="container-fluid px-0 mb-0">
+    <div id="hero" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-inner">
+        {% for s in slides %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <div class="hero-img-wrapper">
+            <img src="{{ s.imagen.url }}" class="hero-img" alt="Slide {{ forloop.counter }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#hero" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#hero" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{# === CONTENIDO NORMAL DENTRO DEL CONTAINER === #}
+{% block content %}
+
+<div class="mb-4 mt-5 text-start">
+  <h1 class="mb-3 fw-light fs-3">KCM CORREDORA DE PROPIEDADES</h1>
+  <p class="lead mb-0">
+    En KCM Corredora de Propiedades brindamos un servicio integral con altos estándares de calidad, ética y compromiso.
+    Asesoramos a nuestros clientes en cada etapa del proceso inmobiliario, ofreciendo soluciones efectivas con experiencia y visión estratégica.
+  </p>
+</div>
+
+<nav class="navbar bg-body-secondary px-3 mb-4 py-4">
+  <div class="container-fluid">
+    <form method="get" action="{% url 'core:propiedad_list' %}" class="d-flex flex-wrap flex-xl-nowrap gap-2 align-items-center w-100">
+      <div class="flex-grow-1 flex-sm-grow-0 w-100 w-xl-auto" style="min-width:160px;">{{ form.tipo_operacion }}</div>
+      <div class="flex-grow-1 flex-sm-grow-0 w-100 w-xl-auto" style="min-width:180px;">{{ form.tipo_propiedad }}</div>
+      <div class="flex-grow-1 flex-sm-grow-0 w-100 w-xl-auto" style="min-width:200px;">{{ form.comuna }}</div>
+      
+      <div class="d-flex gap-2 justify-content-center justify-content-xl-end w-100 w-xl-auto ms-xl-auto mt-2 mt-xl-0">
+        <button class="btn btn-secondary flex-fill flex-xl-none" type="submit">Buscar</button>
+        <a class="btn btn-secondary flex-fill flex-xl-none" href="{% url 'core:propiedad_list' %}">Limpiar</a>
+      </div>
+    </form>
+  </div>
+</nav>
+
+{# ==================== DESTACADAS (SLIDER DINÁMICO) ==================== #}
+<h3 class="mb-4 mt-5 fs-4 text-uppercase">Propiedades destacadas</h3>
+
+<div id="sliderDestacadas" class="carousel slide mb-5" data-bs-ride="false" data-bs-wrap="true">
+  <div class="carousel-inner"></div>
+
+  <div class="carousel-indicators"></div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#sliderDestacadas" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#sliderDestacadas" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Siguiente</span>
+  </button>
+</div>
+
+{# Fuente plana de cards para JS (mantiene data-price-* para formateo) #}
+<div id="srcDestacadas" class="d-none">
+  {% for p in destacadas %}
+    <div class="prop-item">
+      {% include 'core/_card_propiedad.html' with p=p %}
+    </div>
+  {% empty %}
+    <div class="prop-empty">No hay propiedades destacadas por ahora.</div>
+  {% endfor %}
+</div>
+
+{# ==================== RECIENTES (SLIDER DINÁMICO) ==================== #}
+<h3 class="mb-4 mt-5 fs-4 text-uppercase">Propiedades recientes</h3>
+
+<div id="sliderRecientes" class="carousel slide mb-5" data-bs-ride="false" data-bs-wrap="true">
+  <div class="carousel-inner"></div>
+
+  <div class="carousel-indicators"></div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#sliderRecientes" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#sliderRecientes" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Siguiente</span>
+  </button>
+</div>
+
+{# Fuente plana de cards para JS (mantiene data-price-* para formateo) #}
+<div id="srcRecientes" class="d-none">
+  {% for p in recientes %}
+    <div class="prop-item">
+      {% include 'core/_card_propiedad.html' with p=p %}
+    </div>
+  {% empty %}
+    <div class="prop-empty">No hay propiedades recientes por ahora.</div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+{# === FULL-WIDTH ABAJO (sin CSS extra, gracias al bloque nuevo) === #}
+{% block fullwidth_after %}
+<section class="cta-proceso position-relative text-white">
+  <div class="cta-proceso__overlay"></div>
+
+  <div class="container py-5">
+    <div class="row justify-content-lg-end">
+      <div class="col-12 col-lg-6">
+        <div class="cta-proceso__card shadow-lg">
+          <p class="text-uppercase small fw-semibold mb-2 letter-spacing-1 opacity-75">
+            KCM · Corretaje honesto en la RM
+          </p>
+          <h2 class="cta-proceso__title fw-bold mb-3">
+            ¿List@ para vender o arrendar <span class="opacity-75">sin humo</span>?
+          </h2>
+          <p class="mb-4 cta-proceso__lead">
+            Te ayudamos con precio real, fotos pro, difusión en portales clave y filtro de interesados.
+            Tú te enfocas en decidir; nosotros nos encargamos del resto.
+          </p>
+
+          <div class="row g-2 g-sm-3 align-items-stretch">
+            <div class="col-12">
+              <a href="{% url 'core:contacto' %}" class="btn btn-light btn-hero w-100">
+                Contáctanos
+              </a>
+            </div>
+            <div class="col-12 col-sm-6">
+              <a href="{% url 'core:quiero_publicar' %}?tipo_operacion=arriendo" class="btn btn-outline-light btn-hero w-100">
+                Arrendar mi propiedad
+              </a>
+            </div>
+            <div class="col-12 col-sm-6">
+              <a href="{% url 'core:quiero_publicar' %}?tipo_operacion=venta" class="btn btn-outline-light btn-hero w-100">
+                Vender mi propiedad
+              </a>
+            </div>
+          </div>
+
+          <div class="row g-3 mt-4 opacity-75 small">
+            <div class="col-12 col-sm-4 d-flex gap-2 align-items-center">
+              <i class="bi bi-shield-check"></i> Publicación en portales top
+            </div>
+            <div class="col-12 col-sm-4 d-flex gap-2 align-items-center">
+              <i class="bi bi-camera"></i> Fotografía profesional
+            </div>
+            <div class="col-12 col-sm-4 d-flex gap-2 align-items-center">
+              <i class="bi bi-graph-up-arrow"></i> Reportes de avance
+            </div>
+          </div>
+        </div> {# /.cta-proceso__card #}
+      </div>
+    </div>
+  </div> {# /.container #}
+</section>
+{% endblock %}

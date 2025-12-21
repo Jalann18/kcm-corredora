@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Contáctanos | KCM Corredora de Propiedades{% endblock %}
+
+{% block fullwidth %}
+<section class="hero-publicar position-relative">
+  <img src="{% static 'core/img/hero-contacto.jpg' %}" alt="Contáctanos" class="hero-img">
+  <div class="hero-overlay"></div>
+  <div class="hero-content text-white px-3 text-center w-100">
+    <div class="container">
+      <h1 class="fw-bold mb-2">Contáctanos</h1>
+      <p class="lead mb-0">Estamos para acompañarte en todo el proceso inmobiliario</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <!-- INTRO -->
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-10 text-center">
+        <h2 class="fw-bold mb-3">Tu corredora independiente de confianza</h2>
+        <p class="lead text-secondary mb-4 text-justify">
+          En <strong>KCM Corredora de Propiedades</strong> trabajamos de manera independiente, lo que nos permite ofrecerte 
+          un servicio cercano, transparente y completamente personalizado. Nos encargamos de conectar a quienes 
+          quieren vender o arrendar con quienes buscan un nuevo hogar, gestionando todo el proceso de forma ágil 
+          y segura.
+        </p>
+
+        <div class="row g-4 mt-4">
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm bg-body-tertiary">
+              <div class="card-body text-center">
+                <div class="mb-3 text-primary fs-1"><i class="bi bi-house-check"></i></div>
+                <h5 class="fw-semibold mb-2">Intermediación completa</h5>
+                <p class="text-secondary small mb-0">
+                  Coordinamos visitas, negociaciones y cierres. Tú solo te preocupas de elegir la mejor opción.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm bg-body-tertiary">
+              <div class="card-body text-center">
+                <div class="mb-3 text-primary fs-1"><i class="bi bi-cash-coin"></i></div>
+                <h5 class="fw-semibold mb-2">Asesoría crediticia</h5>
+                <p class="text-secondary small mb-0">
+                  Te orientamos en el proceso de crédito hipotecario, tasación y evaluación, trabajando con ejecutivos 
+                  de confianza para que consigas las mejores condiciones.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm bg-body-tertiary">
+              <div class="card-body text-center">
+                <div class="mb-3 text-primary fs-1"><i class="bi bi-file-earmark-text"></i></div>
+                <h5 class="fw-semibold mb-2">Gestión legal y acompañamiento</h5>
+                <p class="text-secondary small mb-0">
+                  Te ayudamos con contratos, promesas de compraventa y todos los trámites notariales, 
+                  garantizando seguridad en cada paso.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FORMULARIO DE CONTACTO -->
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm border-0 bg-body-tertiary">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="fw-semibold mb-3 text-center">Envíanos un mensaje</h3>
+            <p class="text-secondary text-center mb-4">
+              Déjanos tus datos y te contactaremos para resolver tus dudas o coordinar una reunión.
+            </p>
+
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {{ form.non_field_errors }}
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="id_nombre" class="form-label small text-secondary">Nombre</label>
+                  {{ form.nombre }}
+                  {% if form.nombre.errors %}
+                    <div class="invalid-feedback d-block">{{ form.nombre.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <label for="id_email" class="form-label small text-secondary">Email</label>
+                  {{ form.email }}
+                  {% if form.email.errors %}
+                    <div class="invalid-feedback d-block">{{ form.email.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-12">
+                  <label for="id_telefono" class="form-label small text-secondary">Teléfono</label>
+                  {{ form.telefono }}
+                  {% if form.telefono.errors %}
+                    <div class="invalid-feedback d-block">{{ form.telefono.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-12">
+                  <label for="id_mensaje" class="form-label small text-secondary">Mensaje</label>
+                  {{ form.mensaje }}
+                  {% if form.mensaje.errors %}
+                    <div class="invalid-feedback d-block">{{ form.mensaje.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="text-center mt-4">
+                <button class="btn btn-primary btn-cta px-4 py-2" type="submit">
+                  <i class="bi bi-send-fill me-1"></i> Enviar mensaje
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATOS DE CONTACTO DIRECTO -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-6 text-center">
+        <p class="mb-1 text-secondary"><i class="bi bi-envelope me-2 text-primary"></i> contacto@kcm.cl</p>
+        <p class="mb-1 text-secondary"><i class="bi bi-telephone me-2 text-primary"></i> +56 9 1234 5678</p>
+        <p class="text-secondary mb-0"><i class="bi bi-geo-alt me-2 text-primary"></i> Región Metropolitana, Chile</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

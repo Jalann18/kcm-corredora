@@ -1,0 +1,46 @@
+{% load humanize %}
+
+<div class="card h-100 shadow-sm border-0 small p-1">
+  {% if p.portada %}
+    <img src="{{ p.portada.url }}" alt="{{ p.titulo }}" class="w-100 d-block card-img-fixed">
+  {% endif %}
+
+  <div class="card-body d-flex flex-column">
+    <!-- 🏷 1. Título -->
+    <h5 class="card-title fw-semibold mb-2 text-muted text-uppercase fs-6">
+      {{ p.titulo }}
+    </h5>
+
+    <!-- 🏠 2. Tipo de propiedad + comuna -->
+    <p class="text-muted small mb-2 text-uppercase">
+      {{ p.get_tipo_propiedad_display }} en {{ p.comuna }}
+    </p>
+
+    <!-- 🛏️ 3. Detalles (dormitorios, baños, etc.) -->
+    <p class="small mb-2 text-body-secondary">
+      {{ p.dormitorios }}D · {{ p.banos }}B · {{ p.estacionamientos }}E
+      {% if p.sup_construida_m2 %}
+        · {{ p.sup_construida_m2|floatformat:"-2" }} m²
+      {% endif %}
+    </p>
+
+    <!-- 💰 4. Precio + Botón -->
+    <!-- Precio principal en CLP; JS actualiza usando data-price-* -->
+    <div class="mt-auto d-flex justify-content-between align-items-center flex-wrap gap-2 price-btn-wrapper">
+      {% if p.precio_clp %}
+      <h5 class="fw-bold text-secondary mb-0 me-2 flex-grow-1" data-price-clp="{{ p.precio_clp }}">
+        <span data-clp-out>$ {{ p.precio_clp|intcomma }}</span>
+      </h5>
+      {% elif p.precio_uf %}
+      <h5 class="fw-bold text-secondary mb-0 me-2 flex-grow-1" data-price-uf="{{ p.precio_uf }}">
+        <span data-clp-out>UF {{ p.precio_uf|floatformat:"-2" }}</span>
+      </h5>
+      {% else %}
+      <h5 class="fw-bold text-secondary mb-0 me-2 flex-grow-1">Precio a consultar</h5>
+      {% endif %}
+      <a href="{% url 'core:propiedad_detail' p.slug %}" class="btn btn-dark btn-detail">
+        Ver detalles
+      </a>
+    </div>
+  </div>
+</div>

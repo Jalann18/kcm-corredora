@@ -1,0 +1,439 @@
+{% load static %}
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}KCM Corredora de Propiedades{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom py-0 sticky-top">
+    <div class="container">
+      <!-- Logo a la izquierda -->
+      <a class="navbar-brand position-relative" href="/">
+        <img src="{% static 'core/img/logo.png' %}" alt="KCM" class="logo-navbar ms-4">
+      </a>
+
+      <!-- Botón de menú responsive -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Alternar navegación">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenido colapsable -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Menú centrado -->
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">COMPRA</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'core:propiedad_list' %}?tipo_operacion=venta">Todas en venta</a></li>
+              <li><a class="dropdown-item" href="{% url 'core:propiedad_list' %}?tipo_operacion=venta&tipo_propiedad=casa">Casas en venta</a></li>
+              <li><a class="dropdown-item" href="{% url 'core:propiedad_list' %}?tipo_operacion=venta&tipo_propiedad=departamento">Departamentos en venta</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ARRIENDO</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'core:propiedad_list' %}?tipo_operacion=arriendo">Todos los arriendos</a></li>
+              <li><a class="dropdown-item" href="{% url 'core:propiedad_list' %}?tipo_operacion=arriendo&tipo_propiedad=casa">Casas en arriendo</a></li>
+              <li><a class="dropdown-item" href="{% url 'core:propiedad_list' %}?tipo_operacion=arriendo&tipo_propiedad=departamento">Departamentos en arriendo</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:quiero_publicar' %}">PUBLICA TU PROPIEDAD</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:nosotros' %}?motivo=nosotros">NOSOTROS</a>
+          </li>
+        </ul>
+
+        <!-- 🔍 Buscador (a la derecha) -->
+        <form class="d-flex search-form" action="{% url 'core:propiedad_list' %}" method="get">
+          <input class="form-control me-2" type="search" name="q" placeholder="Buscar (título o comuna)" aria-label="Buscar">
+          <button class="btn btn-outline-primary" type="submit">Buscar</button>
+        </form>
+
+        <!-- Lupa (se muestra según tu CSS) -->
+        <button class="btn btn-outline-primary search-toggle ms-2" type="button" id="openSearch">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Overlay de búsqueda -->
+  <div class="search-overlay" id="searchOverlay">
+    <form class="container d-flex" action="{% url 'core:propiedad_list' %}" method="get">
+      <input class="form-control me-2" type="search" name="q" placeholder="Buscar propiedad..." aria-label="Buscar" autofocus>
+      <button class="btn btn-outline-danger" type="button" id="closeSearch"><i class="bi bi-x-lg"></i></button>
+    </form>
+  </div>
+
+  {% block fullwidth %}{% endblock %}
+
+  <main class="container py-4 flex-grow-1">
+    {% if messages %}
+      <div class="mt-2">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} mb-3">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  {# === BLOQUE FULL-WIDTH INFERIOR (opcional) === #}
+  {% block fullwidth_after %}{% endblock %}
+
+  <footer class="footer-kcm text-white mt-auto">
+    <div class="footer-top py-5">
+      <div class="container">
+        <div class="row gy-4">
+          <!-- Columna 1 -->
+          <div class="col-12 col-md-4">
+            <img src="{% static 'core/img/logo.png' %}" alt="KCM" class="footer-logo mb-3">
+          </div>
+
+          <!-- Columna 2 -->
+          <div class="col-6 col-md-4">
+            <h6 class="fw-bold text-uppercase mb-3">Enlaces</h6>
+            <ul class="list-unstyled small text-white-50 mb-0">
+              <li><a href="{% url 'core:home' %}" class="footer-link">Inicio</a></li>
+              <li><a href="{% url 'core:propiedad_list' %}" class="footer-link">Propiedades</a></li>
+              <li><a href="{% url 'core:quiero_publicar' %}" class="footer-link">Publica tu propiedad</a></li>
+              <li><a href="{% url 'core:contacto' %}?motivo=ncontacto" class="footer-link">Contacto</a></li>
+            </ul>
+          </div>
+
+          <!-- Columna 3 -->
+          <div class="col-6 col-md-4">
+            <h6 class="fw-bold text-uppercase mb-3">Contacto</h6>
+            <ul class="list-unstyled small text-white-50 mb-0">
+              <li><i class="bi bi-envelope me-2"></i> contacto@kcm.cl</li>
+              <li><i class="bi bi-telephone me-2"></i> +56 9 1234 5678</li>
+              <li><i class="bi bi-geo-alt me-2"></i> Región Metropolitana, Chile</li>
+            </ul>
+
+            <div class="d-flex gap-3 mt-3">
+              <a href="#" class="text-white-50 fs-5 footer-social"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="text-white-50 fs-5 footer-social"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="text-white-50 fs-5 footer-social"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parte inferior -->
+    <div class="footer-bottom py-3 text-center small text-white-50">
+      © {% now "Y" %} KCM Corredora de Propiedades — Todos los derechos reservados
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Mostrar / ocultar overlay de búsqueda
+    const openBtn = document.getElementById('openSearch');
+    const closeBtn = document.getElementById('closeSearch');
+    const overlay = document.getElementById('searchOverlay');
+
+    if (openBtn && closeBtn && overlay) {
+      openBtn.addEventListener('click', () => overlay.classList.add('active'));
+      closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+    }
+  </script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const img = new Image();
+    img.src = "/static/core/img/valores-bg.jpg";  // ruta de tu parallax
+
+    img.onload = () => {
+      const section = document.querySelector(".valores-parallax");
+      if (section) {
+        section.classList.add("loaded");  // cuando se carga, le agregamos clase
+      }
+    };
+  });
+  </script>
+
+  <script>
+(function () {
+  function perSlide() {
+  const w = window.innerWidth;
+  if (w >= 992) return 3;   // lg+
+  if (w >= 768) return 2;   // md: 2 por slide
+  if (w >= 576) return 1;   // sm: 1 por slide  ✅
+  return 1;                 // xs: 1 por slide
+  }
+
+  function chunk(array, size) {
+    const out = [];
+    for (let i = 0; i < array.length; i += size) out.push(array.slice(i, i + size));
+    return out;
+  }
+
+  function buildCarousel(rootId, srcId) {
+    const root    = document.getElementById(rootId);
+    const inner   = root?.querySelector(".carousel-inner");
+    const inds    = root?.querySelector(".carousel-indicators");
+    const source  = document.getElementById(srcId);
+    if (!root || !inner || !inds || !source) return;
+
+    // items planos
+    const items = Array.from(source.querySelectorAll(".prop-item"));
+    const empty = source.querySelector(".prop-empty");
+
+    // reset
+    inner.innerHTML = "";
+    inds.innerHTML  = "";
+
+    if (!items.length) {
+      inner.innerHTML = `
+        <div class="carousel-item active">
+          <div class="p-3">${empty ? empty.textContent : "Sin propiedades"}</div>
+        </div>`;
+      return;
+    }
+
+    const n = perSlide();
+    const groups = chunk(items, n);
+
+    groups.forEach((grp, idx) => {
+      const slide = document.createElement("div");
+      slide.className = "carousel-item" + (idx === 0 ? " active" : "");
+
+      // grid responsive estable (1 / 2 / 3) con mismo gap visual
+      const row = document.createElement("div");
+      // antes: "row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"
+      row.className = "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4";
+
+      grp.forEach(node => {
+        const col = document.createElement("div");
+        col.className = "col";
+        col.appendChild(node.cloneNode(true));
+        row.appendChild(col);
+      });
+
+      slide.appendChild(row);
+      inner.appendChild(slide);
+
+      // indicador
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.setAttribute("data-bs-target", "#" + rootId);
+      btn.setAttribute("data-bs-slide-to", String(idx));
+      if (idx === 0) { btn.className = "active"; btn.setAttribute("aria-current", "true"); }
+      btn.setAttribute("aria-label", "Slide " + (idx + 1));
+      inds.appendChild(btn);
+    });
+  }
+
+  // construir al cargar + reconstruir si cambia el "perSlide"
+  let last = perSlide();
+  function rebuildIfNeeded() {
+    const now = perSlide();
+    if (now !== last) {
+      buildCarousel("sliderDestacadas", "srcDestacadas");
+      buildCarousel("sliderRecientes", "srcRecientes");
+      last = now;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    buildCarousel("sliderDestacadas", "srcDestacadas");
+    buildCarousel("sliderRecientes", "srcRecientes");
+  });
+
+  window.addEventListener("resize", () => {
+    // debounce muy simple
+    clearTimeout(window.__kcmResizeTO);
+    window.__kcmResizeTO = setTimeout(rebuildIfNeeded, 120);
+  }, { passive: true });
+})();
+</script>
+
+  <script>
+// Conversión y formato de precios basados en UF/CLP
+(function () {
+  const UF_ENDPOINT = "https://mindicador.cl/api";
+  const CLP_FORMATTER = new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    maximumFractionDigits: 0,
+  });
+  const UF_DISPLAY_FROM_SOURCE = new Intl.NumberFormat("es-CL", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+  const UF_DISPLAY_CALCULATED = new Intl.NumberFormat("es-CL", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  let ufFetchInFlight = null;
+
+  const toNumber = (value) => {
+    if (typeof value === "number") return value;
+    if (typeof value !== "string") return NaN;
+    const cleaned = value.replace(/[^0-9.,-]/g, "");
+    const hasComma = cleaned.includes(",");
+    const hasDot = cleaned.includes(".");
+    let normalized = cleaned;
+
+    if (hasComma && hasDot) {
+      normalized = cleaned.replace(/\./g, "").replace(",", ".");
+    } else if (hasComma) {
+      normalized = cleaned.replace(",", ".");
+    }
+
+    const result = parseFloat(normalized);
+    return Number.isFinite(result) ? result : NaN;
+  };
+
+  const clpFmt = (value) => {
+    const num = Number(value);
+    if (!Number.isFinite(num)) return "";
+    return CLP_FORMATTER.format(Math.round(num));
+  };
+
+  const toCLPFromUF = (ufValue) => {
+    const ufToday = window.__UF_HOY_CLP;
+    const numUF = Number(ufValue);
+    if (!Number.isFinite(ufToday) || !Number.isFinite(numUF)) return NaN;
+    return Math.round(numUF * ufToday);
+  };
+
+  const toUFfromCLP = (clpValue) => {
+    const ufToday = window.__UF_HOY_CLP;
+    const numCLP = Number(clpValue);
+    if (!Number.isFinite(ufToday) || !Number.isFinite(numCLP)) return NaN;
+    return Math.round((numCLP / ufToday) * 100) / 100;
+  };
+
+  window.clpFmt = clpFmt;
+  window.toCLPFromUF = toCLPFromUF;
+  window.toUFfromCLP = toUFfromCLP;
+  if (typeof window.__UF_HOY_CLP === "undefined") {
+    window.__UF_HOY_CLP = null;
+  }
+
+  const writeCLP = (node, value) => {
+    if (!Number.isFinite(value)) return;
+    const target = node.querySelector("[data-clp-out]") || node;
+    target.textContent = clpFmt(value);
+  };
+
+  const writeUFLabel = (container) => {
+    const ufOut = container.querySelector("[data-uf-out]");
+    if (!ufOut) return;
+    const ufWrapper = container.querySelector("[data-uf-wrapper]");
+    let ufValue = toNumber(container.dataset.priceUf);
+    let usesSourceUF = Number.isFinite(ufValue);
+
+    if (!usesSourceUF) {
+      const clpFallback = toNumber(container.dataset.priceClp);
+      if (Number.isFinite(clpFallback)) {
+        ufValue = toUFfromCLP(clpFallback);
+      }
+    }
+
+    if (!Number.isFinite(ufValue)) return;
+
+    if (usesSourceUF) {
+      const label =
+        container.dataset.priceUfLabel ||
+        UF_DISPLAY_FROM_SOURCE.format(ufValue);
+      ufOut.textContent = label;
+      container.dataset.priceUfLabel = label;
+    } else {
+      ufOut.textContent = UF_DISPLAY_CALCULATED.format(ufValue);
+    }
+
+    if (ufWrapper) {
+      ufWrapper.classList.remove("d-none");
+    }
+  };
+
+  const paintKnownCLP = () => {
+    document.querySelectorAll("[data-price-clp]").forEach((node) => {
+      const clpVal = toNumber(node.dataset.priceClp);
+      if (!Number.isFinite(clpVal)) return;
+      writeCLP(node, clpVal);
+      if (node.hasAttribute("data-show-uf")) {
+        writeUFLabel(node);
+      }
+    });
+  };
+
+  const paintUFToCLP = () => {
+    if (!Number.isFinite(window.__UF_HOY_CLP)) return;
+
+    document.querySelectorAll("[data-price-uf]").forEach((node) => {
+      const ufVal = toNumber(node.dataset.priceUf);
+      if (!Number.isFinite(ufVal)) return;
+      const clpVal = toCLPFromUF(ufVal);
+      if (!Number.isFinite(clpVal)) return;
+      node.dataset.priceClp = String(clpVal);
+      writeCLP(node, clpVal);
+      if (node.hasAttribute("data-show-uf")) {
+        writeUFLabel(node);
+      }
+    });
+
+    document
+      .querySelectorAll("[data-price-clp][data-show-uf]")
+      .forEach(writeUFLabel);
+  };
+
+  const fetchUFOnce = () => {
+    if (ufFetchInFlight) {
+      ufFetchInFlight.then(paintUFToCLP).catch(() => {});
+      return;
+    }
+
+    ufFetchInFlight = fetch(UF_ENDPOINT)
+      .then((resp) => (resp.ok ? resp.json() : Promise.reject()))
+      .then((data) => {
+        const valor = toNumber(data?.uf?.valor);
+        if (Number.isFinite(valor) && valor > 0) {
+          window.__UF_HOY_CLP = valor;
+          paintUFToCLP();
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        ufFetchInFlight = null;
+      });
+  };
+
+  const ready = () => {
+    paintKnownCLP();
+    if (Number.isFinite(window.__UF_HOY_CLP)) {
+      paintUFToCLP();
+    } else {
+      fetchUFOnce();
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", ready);
+  } else {
+    ready();
+  }
+})();
+</script>
+
+  
+</body>
+</html>
