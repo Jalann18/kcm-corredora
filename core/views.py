@@ -19,12 +19,13 @@ def home(request):
         .order_by("-creado")[:6]
     )
 
-    # === Propiedades recientes (máx. 9, sin duplicar destacadas)
+    # === Propiedades recientes (máx. 9)
     recientes = (
         Propiedad.objects.filter(publicada=True)
-        .exclude(id__in=destacadas.values_list("id", flat=True))
         .order_by("-creado")[:9]
     )
+
+
 
     # === Formulario de búsqueda
     form = BusquedaPropiedadForm()
