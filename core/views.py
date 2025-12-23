@@ -8,7 +8,6 @@ from django.core.paginator import Paginator
 from urllib.parse import urlencode
 
 
-
 def home(request):
     # === Slides administrables (máx. 6)
     slides = CarouselSlide.objects.filter(activo=True).order_by("orden", "id")[:6]
@@ -25,8 +24,6 @@ def home(request):
         .order_by("-creado")[:9]
     )
 
-
-
     # === Formulario de búsqueda
     form = BusquedaPropiedadForm()
 
@@ -40,6 +37,7 @@ def home(request):
             "form": form,
         },
     )
+
 
 def propiedad_list(request):
     form = BusquedaPropiedadForm(request.GET or None)
@@ -68,11 +66,13 @@ def propiedad_list(request):
             qs = qs.filter(tipo_propiedad=tipo_propiedad)
         if region:
             qs = qs.filter(region=region)
+
         # Filtros de precio ahora sobre UF
         if min_precio is not None:
             qs = qs.filter(precio_uf__gte=min_precio)
         if max_precio is not None:
             qs = qs.filter(precio_uf__lte=max_precio)
+
         if dormitorios:
             qs = qs.filter(dormitorios__gte=dormitorios)
         if comuna:
@@ -84,21 +84,31 @@ def propiedad_list(request):
     def choices_dict(field_name):
         return dict(form.fields[field_name].choices)
 
-    prop_labels = choices_dict("tipo_propiedad") if "tipo_propiedad" in form.fields else {}
-    op_labels = choices_dict("tipo_operacion") if "tipo_operacion" in form.fields else {}
+    prop_labels = (
+        choices_dict("tipo_propiedad") if "tipo_propiedad" in form.fields else {}
+    )
+    op_labels = (
+        choices_dict("tipo_operacion") if "tipo_operacion" in form.fields else {}
+    )
 
-    def label_prop(v): return prop_labels.get(v, v) if v else None
-    def label_op(v): return op_labels.get(v, v) if v else None
+    def label_prop(v):
+        return prop_labels.get(v, v) if v else None
+
+    def label_op(v):
+        return op_labels.get(v, v) if v else None
 
     def plural_es(word: str):
-        if not word: return word
-        if word.endswith("s"): return word
-        if word.endswith("ón"): return word[:-2] + "ones"
+        if not word:
+            return word
+        if word.endswith("s"):
+            return word
+        if word.endswith("ón"):
+            return word[:-2] + "ones"
         return word + "s"
 
     titulo = ""
-    lp, lo = label_prop(form.cleaned_data.get("tipo_propiedad") if form.is_valid() else None), \
-             label_op(form.cleaned_data.get("tipo_operacion") if form.is_valid() else None)
+    lp = label_prop(form.cleaned_data.get("tipo_propiedad") if form.is_valid() else None)
+    lo = label_op(form.cleaned_data.get("tipo_operacion") if form.is_valid() else None)
 
     if lp and lo:
         titulo = f"{plural_es(lp)} en {lo}"
@@ -111,7 +121,9 @@ def propiedad_list(request):
         titulo = f"{titulo} en {form.cleaned_data['comuna']}"
 
     # ===== PAGINACIÓN =====
+    # ✅ FIX: el campo correcto es "destacada" (con 'a' al final)
     qs = qs.order_by("-destacada", "-creado")
+
     paginator = Paginator(qs, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -128,6 +140,7 @@ def propiedad_list(request):
         "qs": qs_str,  # 👈 usar en los links del paginador
     }
     return render(request, "core/propiedad_list.html", context)
+
 
 def propiedad_detail(request, slug):
     prop = get_object_or_404(Propiedad, slug=slug, publicada=True)
@@ -147,15 +160,17 @@ def contacto(request):
     form = LeadForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         lead = form.save(commit=False)
-        lead.propiedad = None          # contacto “general”, sin propiedad asociada
-        lead.origen = "contacto"       # para distinguir en el admin
+        lead.propiedad = None  # contacto “general”, sin propiedad asociada
+        lead.origen = "contacto"  # para distinguir en el admin
         lead.save()
         messages.success(request, "¡Gracias! Te contactaremos muy pronto")
         return redirect("core:contacto")
     return render(request, "core/contacto.html", {"form": form})
 
+
 def nosotros(request):
     return render(request, "core/nosotros.html")
+
 
 def quiero_publicar(request):
     form = QuieroPublicarForm(request.POST or None)
@@ -174,7 +189,7 @@ def quiero_publicar(request):
                 f"{cd.get('mensaje','')}"
             ),
             comuna=cd["comuna"],
-            origen="publicacion"
+            origen="publicacion",
         )
         messages.success(request, "¡Gracias! Te contactaremos para publicar tu propiedad.")
         return redirect("core:home")
@@ -186,4 +201,6 @@ def quiero_publicar(request):
     elif op == "arriendo":
         helper_text = "Arriendo: indica canon mensual y si incluye gastos comunes."
 
-    return render(request, "core/quiero_publicar.html", {"form": form, "helper_text": helper_text})
+    return render(
+        request, "core/quiero_publicar.html", {"form": form, "helper_text": helper_text}
+    )
