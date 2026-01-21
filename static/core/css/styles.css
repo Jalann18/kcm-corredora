@@ -434,3 +434,13 @@ body {
 .seccion-intro { padding: 3rem 0; }
 @media (min-width: 768px){ .seccion-intro { padding: 4rem 0; } }
 .seccion-formulario { padding-bottom: 5rem; }
+
+:root { color-scheme: light; }
+html { color-scheme: light; }
+body { background: #fff; color: #111; }
+
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: light; }
+  html, body { background: #fff !important; color: #111 !important; }
+}
+
