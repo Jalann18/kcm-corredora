@@ -13,16 +13,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-insegura-solo-local")
 DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
 
-# =========================================
+# ================================
 # Hosts permitidos (dominios)
-# =========================================
-ALLOWED_HOSTS = [
-    "www.kcmpropiedades.cl",
-    "kcmpropiedades.cl",
-    "jalann.pythonanywhere.com",  # opcional mientras migras
-    "127.0.0.1",
-    "localhost",
-]
+# ================================
+# En producción: setea DJANGO_ALLOWED_HOSTS="kcmpropiedades.cl,www.kcmpropiedades.cl,jalann.pythonanywhere.com"
+# En local: si no está seteado, caemos a defaults.
+_raw_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", "").strip()
+
+ALLOWED_HOSTS = (
+    [h.strip() for h in _raw_hosts.split(",") if h.strip()]
+    if _raw_hosts
+    else [
+        "www.kcmpropiedades.cl",
+        "kcmpropiedades.cl",
+        "jalann.pythonanywhere.com",  # opcional mientras migras
+        "127.0.0.1",
+        "localhost",
+    ]
+)
 
 CSRF_TRUSTED_ORIGINS = (
     [o.strip() for o in os.environ.get("DJANGO_CSRF_TRUSTED", "").split(",") if o.strip()]
