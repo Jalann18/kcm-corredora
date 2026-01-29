@@ -4,7 +4,11 @@
 
 {% block fullwidth %}
 <section class="hero-publicar position-relative">
-  <img src="{% static 'core/img/hero-contacto.jpg' %}" alt="Contáctanos" class="hero-img">
+  <!-- TODO: crear static/core/img/hero-contacto.webp -->
+  <picture>
+    <source type="image/webp" srcset="{% static 'core/img/hero-contacto.webp' %}">
+    <img src="{% static 'core/img/hero-contacto.jpg' %}" alt="Contáctanos" class="hero-img" decoding="async" fetchpriority="high" loading="eager" data-fallback="{% static 'core/img/hero-contacto.jpg' %}">
+  </picture>
   <div class="hero-overlay"></div>
   <div class="hero-content text-white px-3 text-center w-100">
     <div class="container">

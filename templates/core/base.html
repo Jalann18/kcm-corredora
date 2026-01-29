@@ -20,7 +20,11 @@
     <div class="container">
       <!-- Logo a la izquierda -->
       <a class="navbar-brand position-relative" href="/">
-        <img src="{% static 'core/img/logo.png' %}" alt="KCM" class="logo-navbar ms-4">
+        <!-- TODO: crear static/core/img/logo.webp -->
+        <picture>
+          <source type="image/webp" srcset="{% static 'core/img/logo.webp' %}">
+          <img src="{% static 'core/img/logo.png' %}" alt="KCM" class="logo-navbar ms-4" decoding="async" fetchpriority="high" loading="eager" data-fallback="{% static 'core/img/logo.png' %}">
+        </picture>
       </a>
 
       <!-- Botón de menú responsive -->
@@ -105,7 +109,11 @@
         <div class="row gy-4">
           <!-- Columna 1 -->
           <div class="col-12 col-md-4">
-            <img src="{% static 'core/img/logo.png' %}" alt="KCM" class="footer-logo mb-3">
+            <!-- TODO: crear static/core/img/logo.webp -->
+            <picture>
+              <source type="image/webp" srcset="{% static 'core/img/logo.webp' %}">
+              <img src="{% static 'core/img/logo.png' %}" alt="KCM" class="footer-logo mb-3" decoding="async" fetchpriority="high" loading="eager" data-fallback="{% static 'core/img/logo.png' %}">
+            </picture>
           </div>
 
           <!-- Columna 2 -->
@@ -158,16 +166,61 @@
   </script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const img = new Image();
-    img.src = "/static/core/img/valores-bg.jpg";  // ruta de tu parallax
+  (function () {
+    function handleImgError(event) {
+      const img = event.target;
+      if (!img || img.tagName !== "IMG") return;
+      const fallback = img.getAttribute("data-fallback");
+      if (!fallback || img.getAttribute("data-fallback-applied") === "true") return;
 
-    img.onload = () => {
-      const section = document.querySelector(".valores-parallax");
-      if (section) {
-        section.classList.add("loaded");  // cuando se carga, le agregamos clase
-      }
+      img.setAttribute("data-fallback-applied", "true");
+      const pic = img.closest("picture");
+      const webp = pic ? pic.querySelector('source[type="image/webp"]') : null;
+      if (webp) webp.remove();
+      img.src = fallback;
+    }
+
+    document.addEventListener("error", handleImgError, true);
+  })();
+  </script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const section = document.querySelector(".valores-parallax");
+    if (!section) return;
+
+    // TODO: crear static/core/img/valores-bg.webp
+    const webpUrl = "/static/core/img/valores-bg.webp";
+    const jpgUrl = "/static/core/img/valores-bg.jpg";
+
+    const loadBackground = () => {
+      const webpImg = new Image();
+      webpImg.onload = () => section.classList.add("loaded");
+      webpImg.onerror = () => {
+        const jpgImg = new Image();
+        jpgImg.onload = () => {
+          section.classList.add("no-webp");
+          section.classList.add("loaded");
+        };
+        jpgImg.src = jpgUrl;
+      };
+      webpImg.src = webpUrl;
     };
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            obs.unobserve(entry.target);
+            loadBackground();
+          }
+        });
+      }, { rootMargin: "200px" });
+
+      observer.observe(section);
+    } else {
+      loadBackground();
+    }
   });
   </script>
 

@@ -273,7 +273,11 @@ body {
    11) CTA PROCESO (HOME)
 ========================================================= */
 .cta-proceso {
-  --cta-img: url('/static/core/img/hero-proceso.jpg');
+  /* TODO: crear static/core/img/hero-proceso.webp */
+  --cta-img: image-set(
+    url("/static/core/img/hero-proceso.webp") type("image/webp"),
+    url("/static/core/img/hero-proceso.jpg") type("image/jpeg")
+  );
   background: var(--bs-body-bg) no-repeat center/cover;
   background-image: var(--cta-img);
   min-height: 520px;
@@ -352,7 +356,11 @@ body {
 .valores-parallax {
   position: relative;
   isolation: isolate; /* perf: overlay aislado */
-  background-image: url("/static/core/img/valores-bg.jpg");
+  /* TODO: crear static/core/img/valores-bg.webp */
+  background-image: image-set(
+    url("/static/core/img/valores-bg.webp") type("image/webp"),
+    url("/static/core/img/valores-bg.jpg") type("image/jpeg")
+  );
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* parallax */
@@ -362,7 +370,9 @@ body {
   opacity: 0;
   transition: opacity .6s ease-in-out;
 }
+.valores-parallax:not(.loaded) { background-image: none; }
 .valores-parallax.loaded { opacity: 1; }
+.valores-parallax.no-webp { background-image: url("/static/core/img/valores-bg.jpg"); }
 .valores-parallax::before {
   content: "";
   position: absolute;

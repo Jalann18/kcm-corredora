@@ -5,7 +5,11 @@
 {# === HERO SUPERIOR (reusa estilos de .hero-publicar) === #}
 {% block fullwidth %}
 <section class="hero-publicar position-relative">
-  <img src="{% static 'core/img/hero-nosotros.jpg' %}" alt="Sobre KCM" class="hero-img">
+  <!-- TODO: crear static/core/img/hero-nosotros.webp -->
+  <picture>
+    <source type="image/webp" srcset="{% static 'core/img/hero-nosotros.webp' %}">
+    <img src="{% static 'core/img/hero-nosotros.jpg' %}" alt="Sobre KCM" class="hero-img" decoding="async" fetchpriority="high" loading="eager" data-fallback="{% static 'core/img/hero-nosotros.jpg' %}">
+  </picture>
   <div class="hero-overlay"></div>
 
   <div class="hero-content text-white px-3 w-100">
@@ -140,11 +144,17 @@
             <!-- Imagen simple + nombre -->
             <div class="col-md-4 text-center">
               <div class="ratio ratio-3x4 overflow-hidden  shadow-sm">
-                <img
-                  src="{% static 'core/img/karina-portrait.jpg' %}?v=2"
-                  alt="Ejecutiva Karina Cavieres — KCM"
-                  class="w-100 h-100 rounded-2 object-fit-cover"
-                  decoding="async">
+                <!-- TODO: crear static/core/img/karina-portrait.webp -->
+                <picture>
+                  <source type="image/webp" srcset="{% static 'core/img/karina-portrait.webp' %}?v=2">
+                  <img
+                    src="{% static 'core/img/karina-portrait.jpg' %}?v=2"
+                    alt="Ejecutiva Karina Cavieres — KCM"
+                    class="w-100 h-100 rounded-2 object-fit-cover"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback="{% static 'core/img/karina-portrait.jpg' %}?v=2">
+                </picture>
               </div>
               <p class="mt-3 mb-0 text-start ms-4  fs-6 fw-semibold text-white">Ejecutiva Karina Cavieres</p>
             </div>

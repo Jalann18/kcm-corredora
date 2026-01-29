@@ -1,14 +1,34 @@
 {% extends 'core/base.html' %}
+{% load static %}
 {% block title %}Publica tu propiedad | KCM{% endblock %}
 
 {# ====== HERO SECCIÓN SUPERIOR ====== #}
 {% block fullwidth %}
 <section class="hero-publicar position-relative mb-0">
-  <img
-    src="{{ hero_url|default:'/static/core/img/hero-publicar.jpg' }}"
-    alt="Publica tu propiedad"
-    class="hero-img"
-  >
+  {% if hero_url %}
+    <img
+      src="{{ hero_url }}"
+      alt="Publica tu propiedad"
+      class="hero-img"
+      decoding="async"
+      fetchpriority="high"
+      loading="eager"
+    >
+  {% else %}
+    <!-- TODO: crear static/core/img/hero-publicar.webp -->
+    <picture>
+      <source type="image/webp" srcset="{% static 'core/img/hero-publicar.webp' %}">
+      <img
+        src="{% static 'core/img/hero-publicar.jpg' %}"
+        alt="Publica tu propiedad"
+        class="hero-img"
+        decoding="async"
+        fetchpriority="high"
+        loading="eager"
+        data-fallback="{% static 'core/img/hero-publicar.jpg' %}"
+      >
+    </picture>
+  {% endif %}
   <div class="hero-overlay"></div>
 
   <div class="hero-content text-white px-3 w-100">
