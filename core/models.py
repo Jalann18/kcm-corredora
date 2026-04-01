@@ -41,6 +41,10 @@ class Agente(models.Model):
     foto = models.ImageField(upload_to='agentes/', blank=True, null=True)
     activo = models.BooleanField(default=True)
 
+    class Meta:
+        verbose_name = "Agente Inmobiliario"
+        verbose_name_plural = "Equipo de Vendedores"
+
     def __str__(self):
         return self.nombre
 
@@ -88,6 +92,8 @@ class Propiedad(models.Model):
 
     class Meta:
         ordering = ['-destacada', '-creado']
+        verbose_name = "Propiedad"
+        verbose_name_plural = "Propiedades"
 
     def __str__(self):
         return self.titulo
@@ -112,6 +118,8 @@ class ImagenPropiedad(models.Model):
 
     class Meta:
         ordering = ['orden', 'id']
+        verbose_name = "Foto de Galería"
+        verbose_name_plural = "Galería de fotos"
 
     def __str__(self):
         return f"Imagen {self.orden} de {self.propiedad.titulo}"
@@ -129,6 +137,10 @@ class Lead(models.Model):
     comuna = models.CharField(max_length=60, blank=True)
     origen = models.CharField(max_length=50, default='web')
 
+    class Meta:
+        verbose_name = "Mensaje de Cliente"
+        verbose_name_plural = "Mensajes de Clientes (Leads)"
+
 class CarouselSlide(models.Model):
     imagen = models.ImageField(upload_to='banners/')
     titulo = models.CharField(max_length=120, blank=True)
@@ -141,8 +153,8 @@ class CarouselSlide(models.Model):
 
     class Meta:
         ordering = ["orden", "id"]  # orden estable
-        verbose_name = "Slide de carrusel"
-        verbose_name_plural = "Slides de carrusel"
+        verbose_name = "Banner de Portada"
+        verbose_name_plural = "Fotos de Portada (Banners)"
 
     def __str__(self):
         return self.titulo or f"Slide #{self.pk}"

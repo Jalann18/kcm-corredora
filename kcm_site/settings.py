@@ -192,14 +192,43 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # =====================
 JAZZMIN_SETTINGS = {
     "site_title": "KCM Admin",
-    "site_header": "KCM Propiedades",
+    "site_header": "Gestión KCM",
     "site_brand": "KCM Propiedades",
+    "site_logo": "core/img/logo.webp", # Si existe
     "welcome_sign": "Bienvenido al Gestor Inmobiliario",
     "copyright": "KCM Corredora",
-    "show_ui_builder": True,
+    "show_ui_builder": False,
+    
+    # --- MENÚ SUPERIOR DE ACCESO RÁPIDO ---
+    "topmenu_links": [
+        {"name": "Ver Sitio Web", "url": "/", "new_window": True},
+        {"model": "core.Propiedad"},
+    ],
+
+    # --- ICONOS VISUALES PARA CADA SECCIÓN ---
+    "icons": {
+        "core.Propiedad": "fas fa-home",
+        "core.Agente": "fas fa-id-card",
+        "core.Lead": "fas fa-envelope",
+        "core.CarouselSlide": "fas fa-image",
+    },
+    
+    # --- ORDEN DEL MENÚ LATERAL ---
+    "order_with_respect_to": ["core.Propiedad", "core.CarouselSlide", "core.Lead", "core.Agente"],
+    
+    # --- OCULTAR ELEMENTOS TÉCNICOS ---
+    "hide_models": ["auth.Group", "auth.User"],
 }
 
 JAZZMIN_UI_TWEAKS = {
-    "theme": "darkly",
-    "dark_mode_theme": "darkly",
+    "theme": "flatly",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
 }
