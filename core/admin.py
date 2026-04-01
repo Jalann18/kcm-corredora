@@ -6,11 +6,11 @@ from django.utils.safestring import mark_safe
 from .models import Propiedad, ImagenPropiedad, Agente, Lead, CarouselSlide
 
 # --- INLINE PARA IMÁGENES CON DRAG & DROP ---
-class ImagenPropiedadInline(SortableInlineAdminMixin, admin.TabularInline):
+class ImagenPropiedadInline(SortableInlineAdminMixin, admin.StackedInline):
     model = ImagenPropiedad
     extra = 0
     verbose_name = "Foto de Galería"
-    verbose_name_plural = "📸 GALERÍA DE FOTOS (Usa las flechitas de la izquierda para arrastrar y reordenar)"
+    verbose_name_plural = "📸 GALERÍA DE FOTOS (Pincha el encabezado de la foto y arrástrala hacia arriba o abajo para reordenar)"
     readonly_fields = ("preview",)
 
     def preview(self, obj):
