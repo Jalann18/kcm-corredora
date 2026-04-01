@@ -389,4 +389,43 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<!-- =======================
+     Modal Zoom Imagen
+======================= -->
+<div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered px-2">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-header border-0 pb-0 justify-content-end position-absolute top-0 end-0 w-100" style="z-index: 10;">
+        <!-- Botón de cerrar con buen contraste -->
+        <button type="button" class="btn-close btn-close-white bg-dark m-3 p-2 rounded-circle border border-white opacity-100 shadow" data-bs-dismiss="modal" aria-label="Cerrar" style="width: 1em; height: 1em;"></button>
+      </div>
+      <div class="modal-body text-center p-0">
+        <img src="" id="zoomModalImg" class="img-fluid rounded shadow-lg" alt="Zoom Propiedad" style="max-height: 90vh; object-fit: contain;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =======================
+     JS: Zoom Modal
+======================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const zoomModalEl = document.getElementById('imageZoomModal');
+  if (!zoomModalEl) return;
+  const zoomModal = new bootstrap.Modal(zoomModalEl);
+  const zoomModalImg = document.getElementById('zoomModalImg');
+
+  // Agregar cursor de zoom a las imágenes del carrusel principal
+  const carouselImages = document.querySelectorAll('#galeriaProp .carousel-item img');
+  carouselImages.forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      zoomModalImg.src = img.src;
+      zoomModal.show();
+    });
+  });
+});
+</script>
+
 {% endblock %}
