@@ -5,12 +5,13 @@ from django.utils.safestring import mark_safe
 from django.utils.safestring import mark_safe
 from .models import Propiedad, ImagenPropiedad, Agente, Lead, CarouselSlide
 
-# --- INLINE PARA IMÁGENES CON DRAG & DROP ---
-class ImagenPropiedadInline(SortableInlineAdminMixin, admin.TabularInline):
+# --- INLINE PARA IMÁGENES (TABLA NATIVA CON DRAG & DROP JS) ---
+class ImagenPropiedadInline(admin.TabularInline):
     model = ImagenPropiedad
     extra = 0
     verbose_name = "Foto de Galería"
-    verbose_name_plural = "📸 GALERÍA DE FOTOS (Usa el ícono de las rayas horizontales a la izquierda para arrastrar y reordenar)"
+    verbose_name_plural = "📸 GALERÍA DE FOTOS (Arrastra la fila hacia arriba/abajo para cambiar el orden, fíjate en la columna Orden)"
+    fields = ("imagen", "preview", "orden")
     readonly_fields = ("preview",)
 
     def preview(self, obj):
@@ -71,6 +72,9 @@ class PropiedadAdmin(SortableAdminBase, admin.ModelAdmin):
             "description": "<em>Opciones de visibilidad y metadatos técnicos.</em>"
         }),
     )
+
+    class Media:
+        js = ('core/js/drag_drop.js',)
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
