@@ -395,9 +395,11 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered px-2">
     <div class="modal-content bg-transparent border-0">
-      <div class="modal-header border-0 pb-0 justify-content-end position-absolute top-0 end-0 w-100" style="z-index: 10;">
-        <!-- Botón de cerrar con buen contraste -->
-        <button type="button" class="btn-close btn-close-white bg-dark m-3 p-2 rounded-circle border border-white opacity-100 shadow" data-bs-dismiss="modal" aria-label="Cerrar" style="width: 1em; height: 1em;"></button>
+      <div class="modal-header border-0 pb-0 justify-content-end p-0">
+        <!-- Botón flotante de cerrar -->
+        <button type="button" class="btn btn-dark opacity-75 rounded-circle shadow position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Cerrar" style="width: 45px; height: 45px; z-index: 1055;">
+          <i class="bi bi-x-lg fs-4 text-white"></i>
+        </button>
       </div>
       <div class="modal-body text-center p-0">
         <img src="" id="zoomModalImg" class="img-fluid rounded shadow-lg" alt="Zoom Propiedad" style="max-height: 90vh; object-fit: contain;">
