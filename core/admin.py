@@ -9,6 +9,8 @@ from .models import Propiedad, ImagenPropiedad, Agente, Lead, CarouselSlide
 class ImagenPropiedadInline(SortableInlineAdminMixin, admin.TabularInline):
     model = ImagenPropiedad
     extra = 0
+    verbose_name = "Foto (Mantén click y arrastra para ordenar)"
+    verbose_name_plural = "👇 ARRASTRA LAS FOTOGRAFÍAS PARA REORDENAR LA GALERÍA"
     readonly_fields = ("preview",)
 
     def preview(self, obj):
@@ -35,11 +37,40 @@ class PropiedadAdminForm(forms.ModelForm):
 @admin.register(Propiedad)
 class PropiedadAdmin(SortableAdminBase, admin.ModelAdmin):
     form = PropiedadAdminForm
-    list_display = ("titulo", "tipo_operacion", "tipo_propiedad", "region", "comuna", "precio_uf", "publicada", "destacada")
-    list_filter = ("tipo_operacion", "tipo_propiedad", "region", "publicada", "destacada")
+    list_display = ("titulo", "tipo_operacion", "tipo_propiedad", "comuna", "precio_uf", "publicada", "destacada")
+    list_filter = ("tipo_operacion", "tipo_propiedad", "comuna", "publicada", "destacada")
     search_fields = ("titulo", "descripcion", "comuna", "direccion")
     prepopulated_fields = {"slug": ("titulo",)}
     inlines = [ImagenPropiedadInline]
+    
+    fieldsets = (
+        ("📝 Datos Principales", {
+            "fields": ("titulo", "descripcion", ("tipo_operacion", "tipo_propiedad")),
+        }),
+        ("💰 Precio", {
+            "fields": (("precio_uf", "precio_clp"),),
+            "description": "<em>Nota: Ingresa el valor en UF si es venta. El CLP sirve para propiedades antiguas.</em>"
+        }),
+        ("📍 Ubicación", {
+            "fields": ("region", "comuna", "direccion"),
+        }),
+        ("🏠 Características", {
+            "fields": (
+                ("dormitorios", "banos", "estacionamientos"),
+                ("sup_construida_m2", "sup_terreno_m2"),
+                "ano_construccion"
+            ),
+        }),
+        ("🖼️ Portada y Galería Múltiple", {
+            "fields": ("portada", "fotos_multiples"),
+            "description": "<em>La foto de <strong>Portada</strong> es la imagen principal. Sube el resto de las imágenes usando el campo <strong>Fotos Múltiples</strong> (luego podrás ordenarlas visualmente abajo).</em>"
+        }),
+        ("⚙️ Configuración Interna", {
+            "fields": ("agente", "destacada", "publicada", "slug"),
+            "classes": ("collapse",),
+            "description": "<em>Opciones de visibilidad y metadatos técnicos.</em>"
+        }),
+    )
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
