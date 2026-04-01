@@ -42,7 +42,9 @@ CSRF_TRUSTED_ORIGINS = (
 # APPS
 # =====================
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
+    "adminsortable2",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -184,3 +186,20 @@ CLOUDINARY_STORAGE = {
 # DEFAULT PK
 # =====================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# =====================
+# JAZZMIN ADMIN THEME
+# =====================
+JAZZMIN_SETTINGS = {
+    "site_title": "KCM Admin",
+    "site_header": "KCM Propiedades",
+    "site_brand": "KCM Propiedades",
+    "welcome_sign": "Bienvenido al Gestor Inmobiliario",
+    "copyright": "KCM Corredora",
+    "show_ui_builder": True,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+    "dark_mode_theme": "darkly",
+}
