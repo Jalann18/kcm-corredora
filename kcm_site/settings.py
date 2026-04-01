@@ -42,9 +42,9 @@ CSRF_TRUSTED_ORIGINS = (
 # APPS
 # =====================
 INSTALLED_APPS = [
+    "adminsortable2",
     "jazzmin",
     "django.contrib.admin",
-    "adminsortable2",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
