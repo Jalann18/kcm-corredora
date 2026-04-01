@@ -169,11 +169,9 @@ STORAGES = {
 
     # STATIC (collectstatic)
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "core.storage.CustomWhiteNoiseStorage",
     },
 }
-
-WHITENOISE_MANIFEST_STRICT = False
 
 # =====================
 # CLOUDINARY
