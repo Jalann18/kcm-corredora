@@ -5,17 +5,22 @@ from django.utils.safestring import mark_safe
 from django.utils.safestring import mark_safe
 from .models import Propiedad, ImagenPropiedad, Agente, Lead, CarouselSlide
 
-# --- INLINE PARA IMÁGENES CON DRAG & DROP ---
-class ImagenPropiedadInline(SortableInlineAdminMixin, admin.TabularInline):
+# --- INLINE PARA IMÁGENES CON DRAG & DROP (MODO CUADRÍCULA) ---
+class ImagenPropiedadInline(SortableInlineAdminMixin, admin.StackedInline):
     model = ImagenPropiedad
     extra = 0
-    verbose_name = "Foto (Mantén click y arrastra para ordenar)"
-    verbose_name_plural = "👇 ARRASTRA LAS FOTOGRAFÍAS PARA REORDENAR LA GALERÍA"
+    verbose_name = "Foto de Galería"
+    verbose_name_plural = "📸 GALERÍA DE FOTOS (Pincha y arrastra para ordenar)"
+    fields = ("preview", "imagen")
     readonly_fields = ("preview",)
 
     def preview(self, obj):
         if obj.imagen:
-            return mark_safe(f'<img src="{obj.imagen.url}" style="height:100px;object-fit:cover;border-radius:6px;" />')
+            return mark_safe(
+                f'<div style="cursor: move;">'
+                f'<img src="{obj.imagen.url}" style="width:180px;height:120px;object-fit:cover;border-radius:8px;border: 2px solid #ddd;" />'
+                f'</div>'
+            )
         return "—"
     preview.short_description = "Vista Previa"
 
@@ -71,6 +76,11 @@ class PropiedadAdmin(SortableAdminBase, admin.ModelAdmin):
             "description": "<em>Opciones de visibilidad y metadatos técnicos.</em>"
         }),
     )
+
+    class Media:
+        css = {
+            'all': ('core/css/admin_custom.css',)
+        }
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

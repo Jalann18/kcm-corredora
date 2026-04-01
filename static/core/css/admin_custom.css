@@ -1,0 +1,78 @@
+/* static/core/css/admin_custom.css */
+
+/* Contenedor de la galería */
+#imagenes-group {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px dashed #ced4da;
+    margin-top: 20px;
+}
+
+/* Cada cuadro de foto */
+#imagenes-group .inline-related {
+    display: inline-block !important;
+    width: 220px;
+    margin: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+    vertical-align: top;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#imagenes-group .inline-related:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+/* Escondemos el título genérico de Django "Imagen Propiedad #X" */
+#imagenes-group .inline-related h3 {
+    background: #f1f3f5;
+    font-size: 10px;
+    padding: 5px 10px;
+    color: #adb5bd;
+    border-bottom: 1px solid #eee;
+    text-transform: uppercase;
+}
+
+/* Limpieza de filas del formulario */
+#imagenes-group .inline-related .form-row {
+    padding: 10px !important;
+    border: none !important;
+}
+
+/* Centramos la previsualización */
+#imagenes-group .field-preview {
+    padding: 0 !important;
+    text-align: center;
+    background: #000;
+}
+
+/* Ajuste del selector de archivo */
+#imagenes-group .field-imagen {
+    font-size: 11px;
+}
+
+#imagenes-group .field-imagen input {
+    max-width: 100%;
+}
+
+/* Botón de borrar arriba a la derecha */
+#imagenes-group .delete {
+    float: none !important;
+}
+
+#imagenes-group .inline-deletable {
+    background: #fff5f5;
+    padding: 5px !important;
+    text-align: center;
+}
+
+/* Sombra durante el arrastre */
+.ui-sortable-helper {
+    opacity: 0.9;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+}
