@@ -32,6 +32,16 @@ ALLOWED_HOSTS = (
     ]
 )
 
+# --- SEGURIDAD SSL (Producción) ---
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000 # 1 año
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
 CSRF_TRUSTED_ORIGINS = (
     [o.strip() for o in os.environ.get("DJANGO_CSRF_TRUSTED", "").split(",") if o.strip()]
     if not DEBUG
@@ -177,9 +187,10 @@ STORAGES = {
 # CLOUDINARY
 # =====================
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
-    "API_KEY": os.environ.get("CLOUDINARY_API_KEY", ""),
-    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET", ""),
+    "CLOUD_NAME": os.environ.get("CLOUD_NAME", os.environ.get("CLOUDINARY_CLOUD_NAME", "")),
+    "API_KEY": os.environ.get("API_KEY", os.environ.get("CLOUDINARY_API_KEY", "")),
+    "API_SECRET": os.environ.get("API_SECRET", os.environ.get("CLOUDINARY_API_SECRET", "")),
+    "SECURE": True, # <--- FORZAR HTTPS EN IMÁGENES
 }
 
 # =====================
