@@ -270,8 +270,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const val = parseFloat(input.value);
     if (Number.isFinite(val) && val > 0) {
       widget.dataset.precioUf = String(val);
-      // Disparar el recálculo del simulador
-      widget.querySelector("[data-sim-pie]")?.dispatchEvent(new Event("input"));
+      // Re-inicializar el simulador con el nuevo precio
+      // (la primera vez adjunta los listeners; las siguientes solo recalcula)
+      if (typeof window.kcmSimInit === "function") {
+        window.kcmSimInit(widget);
+      }
     }
   });
 });

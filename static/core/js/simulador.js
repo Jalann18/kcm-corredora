@@ -129,7 +129,6 @@
           if (Number.isFinite(window.__UF_HOY_CLP) && window.__UF_HOY_CLP > 0) {
             clearInterval(checkUF);
             sim.dataset.precioUf = (precioCLP / window.__UF_HOY_CLP).toString();
-            // Re-ejecutar inicialización con el precioUF disponible
             initSimulador(sim);
           }
         }, 100);
@@ -138,28 +137,28 @@
       }
     }
 
-    // Si no tenemos ningún precio válido, ocultamos el simulador
+    // Si no tenemos ningún precio válido, mostrar aviso y salir
     if (!Number.isFinite(precioUF) || precioUF <= 0) {
       sim.querySelector("[data-sim-sin-precio]")?.classList.remove("d-none");
       sim.querySelector("[data-sim-body]")?.classList.add("d-none");
+      sim.dataset.simInitialized = "";
       return;
     }
 
-    // Asegurarse de mostrar el simulador si estaba oculto
+    // Mostrar el cuerpo del simulador
     sim.querySelector("[data-sim-sin-precio]")?.classList.add("d-none");
     sim.querySelector("[data-sim-body]")?.classList.remove("d-none");
 
-    // Mostrar precio en la cabecera del widget
+    // Mostrar precio en la cabecera
     setText(sim, "[data-res-precio-uf]", fmtUF(precioUF));
 
-    // Actualizar dinámicamente el enlace a la página completa del simulador si existe
+    // Actualizar enlace al simulador completo si existe
     const fullSimLink = sim.querySelector(".sim-cta-link");
     if (fullSimLink) {
       const baseUrl = fullSimLink.getAttribute("href").split("?")[0];
       fullSimLink.setAttribute("href", `${baseUrl}?precio_uf=${Math.round(precioUF)}`);
     }
 
-    // Aplicar defaults
     const pieInput   = sim.querySelector("[data-sim-pie]");
     const plazoInput = sim.querySelector("[data-sim-plazo]");
     const tasaInput  = sim.querySelector("[data-sim-tasa]");
@@ -168,23 +167,26 @@
     if (plazoInput) plazoInput.value = DEFAULTS.plazo_anos;
     if (tasaInput)  tasaInput.value  = DEFAULTS.tasa_anual;
 
-    // Primera renderización
+    // Calcular inmediatamente
     calcular(sim);
 
-    // Escuchar cambios
-    [pieInput, plazoInput, tasaInput].forEach((input) => {
-      if (!input) return;
-      input.addEventListener("input", () => calcular(sim));
-    });
+    // Adjuntar listeners SOLO si aún no se han adjuntado
+    if (!sim.dataset.simInitialized) {
+      sim.dataset.simInitialized = "1";
+      [pieInput, plazoInput, tasaInput].forEach((input) => {
+        if (!input) return;
+        input.addEventListener("input", () => calcular(sim));
+      });
 
-    // Si la UF aún no se cargó, re-calcular cuando llegue
-    const observer = setInterval(() => {
-      if (Number.isFinite(window.__UF_HOY_CLP)) {
-        calcular(sim);
-        clearInterval(observer);
-      }
-    }, 400);
-    setTimeout(() => clearInterval(observer), 10000);
+      // Recalcular cuando llegue la UF del día (si aún no estaba disponible)
+      const observer = setInterval(() => {
+        if (Number.isFinite(window.__UF_HOY_CLP)) {
+          calcular(sim);
+          clearInterval(observer);
+        }
+      }, 400);
+      setTimeout(() => clearInterval(observer), 10000);
+    }
   }
 
   /* =====================================================
@@ -199,4 +201,7 @@
   } else {
     boot();
   }
+
+  // Exponer globalmente para que el input libre de simulador.html pueda re-inicializar
+  window.kcmSimInit = initSimulador;
 })();
