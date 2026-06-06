@@ -204,3 +204,23 @@ def quiero_publicar(request):
     return render(
         request, "core/quiero_publicar.html", {"form": form, "helper_text": helper_text}
     )
+
+
+def simulador_hipotecario(request):
+    """
+    Página autónoma del Simulador de Crédito Hipotecario.
+    El precio_uf puede ser pre-llenado desde la URL (?precio_uf=5000)
+    para enlazar directamente desde una propiedad si el usuario quiere
+    una vista más amplia del simulador.
+    """
+    precio_uf_inicial = request.GET.get("precio_uf", "")
+    try:
+        precio_uf_inicial = float(precio_uf_inicial) if precio_uf_inicial else ""
+    except ValueError:
+        precio_uf_inicial = ""
+
+    return render(
+        request,
+        "core/simulador.html",
+        {"precio_uf_inicial": precio_uf_inicial},
+    )

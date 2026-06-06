@@ -444,3 +444,212 @@ body { background: #fff; color: #111; }
   html, body { background: #fff !important; color: #111 !important; }
 }
 
+/* =========================================================
+   16) SIMULADOR DE CRÉDITO HIPOTECARIO
+========================================================= */
+
+/* Contenedor principal del widget */
+.kcm-simulador {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+
+/* Cabecera oscura del simulador */
+.sim-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+  color: #fff;
+  padding: 1.25rem 1.5rem 1rem;
+  border-radius: 1rem 1rem 0 0;
+}
+.sim-header .sim-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.sim-header .sim-precio-badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.85rem;
+  display: inline-block;
+  backdrop-filter: blur(4px);
+}
+
+/* Cuerpo del simulador */
+.sim-body {
+  background: #fafafa;
+  padding: 1.25rem 1.5rem;
+}
+
+/* Sliders */
+.sim-range-group {
+  margin-bottom: 1rem;
+}
+.sim-range-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.3rem;
+}
+.sim-range-label span:first-child {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6c757d;
+  font-weight: 600;
+}
+.sim-range-value {
+  font-weight: 700;
+  color: #0f3460;
+  font-size: 0.95rem;
+  min-width: 80px;
+  text-align: right;
+}
+.sim-range-group input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 10px;
+  background: #dee2e6;
+  outline: none;
+  cursor: pointer;
+  accent-color: #0f3460;
+  transition: background 0.2s;
+}
+.sim-range-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0f3460;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15,52,96,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.sim-range-group input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 3px 10px rgba(15,52,96,0.5);
+}
+
+/* Tarjetas de resultado */
+.sim-results {
+  background: #fff;
+  border-radius: 0 0 1rem 1rem;
+  border-top: 1px solid #e9ecef;
+  padding: 1.1rem 1.5rem 1.25rem;
+}
+.sim-result-card {
+  background: #f8f9fa;
+  border-radius: 0.6rem;
+  padding: 0.65rem 0.9rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s;
+}
+.sim-result-card:hover {
+  background: #eef2ff;
+}
+.sim-result-card .sim-label {
+  font-size: 0.78rem;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sim-result-card .sim-value-uf {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0f3460;
+  text-align: right;
+}
+.sim-result-card .sim-value-clp {
+  font-size: 0.75rem;
+  color: #868e96;
+  text-align: right;
+  line-height: 1.2;
+}
+
+/* Tarjeta cuota destacada */
+.sim-cuota-destacada {
+  background: linear-gradient(135deg, #0f3460, #1a5276);
+  color: #fff;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0 0.5rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(15,52,96,0.25);
+}
+.sim-cuota-destacada .cuota-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+  margin-bottom: 0.1rem;
+}
+.sim-cuota-destacada .cuota-uf {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.sim-cuota-destacada .cuota-clp {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-top: 0.1rem;
+}
+.sim-cuota-destacada .cuota-periodo {
+  font-size: 0.7rem;
+  opacity: 0.65;
+  margin-top: 0.25rem;
+}
+
+/* Disclaimer / badge de advertencia */
+.sim-disclaimer {
+  font-size: 0.72rem;
+  color: #6c757d;
+  border-top: 1px dashed #dee2e6;
+  padding-top: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+/* CTA simulador en página detalle */
+.sim-cta-link {
+  font-size: 0.82rem;
+  color: #0f3460;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.15s;
+}
+.sim-cta-link:hover { color: #1a5276; text-decoration: underline; }
+
+/* Página independiente del simulador */
+.sim-page-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+  color: #fff;
+  padding: 3.5rem 0 2.5rem;
+  margin-bottom: 2rem;
+  border-radius: 0 0 1.5rem 1.5rem;
+}
+.sim-page-hero h1 { font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.4rem); }
+.sim-page-hero p  { opacity: 0.85; font-size: 1.05rem; }
+
+/* Responsive */
+@media (max-width: 575.98px) {
+  .sim-header, .sim-body, .sim-results { padding-left: 1rem; padding-right: 1rem; }
+  .sim-cuota-destacada .cuota-uf { font-size: 1.5rem; }
+}
+

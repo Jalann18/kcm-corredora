@@ -11,4 +11,5 @@ urlpatterns = [
     path('contacto/', views.contacto, name='contacto'),
     path('quiero-publicar/', views.quiero_publicar, name='quiero_publicar'),
     path('nosotros/', views.nosotros, name='nosotros'),
+    path('simulador/', views.simulador_hipotecario, name='simulador'),
 ]

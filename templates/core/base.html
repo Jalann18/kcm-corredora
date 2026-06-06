@@ -57,6 +57,12 @@
           </li>
 
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:simulador' %}">
+              <i class="bi bi-calculator me-1"></i>SIMULADOR
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'core:nosotros' %}?motivo=nosotros">NOSOTROS</a>
           </li>
         </ul>
@@ -114,6 +120,7 @@
             <ul class="list-unstyled small text-white-50 mb-0">
               <li><a href="{% url 'core:home' %}" class="footer-link">Inicio</a></li>
               <li><a href="{% url 'core:propiedad_list' %}" class="footer-link">Propiedades</a></li>
+              <li><a href="{% url 'core:simulador' %}" class="footer-link">Simulador hipotecario</a></li>
               <li><a href="{% url 'core:quiero_publicar' %}" class="footer-link">Publica tu propiedad</a></li>
               <li><a href="{% url 'core:contacto' %}?motivo=ncontacto" class="footer-link">Contacto</a></li>
             </ul>

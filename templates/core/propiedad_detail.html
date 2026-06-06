@@ -200,6 +200,135 @@
 </div>
 
 <!-- =======================
+     SIMULADOR DE CRÉDITO HIPOTECARIO
+     (solo propiedades en venta con precio UF)
+======================= -->
+{% if prop.tipo_operacion == 'venta' and prop.precio_uf %}
+<section class="mt-4" id="simulador-credito">
+  <h4 class="mb-3">
+    <i class="bi bi-calculator me-2"></i> Simulador de Crédito Hipotecario
+  </h4>
+
+  <div class="kcm-simulador" data-precio-uf="{{ prop.precio_uf }}">
+
+    <!-- Cabecera del widget -->
+    <div class="sim-header">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <span class="sim-icon"><i class="bi bi-bank"></i></span>
+        <div>
+          <div class="fw-bold" style="font-size:1rem;">Simula tu financiamiento</div>
+          <div class="sim-precio-badge mt-1">
+            Propiedad: <strong data-res-precio-uf>{{ prop.precio_uf|floatformat:"-2" }} UF</strong>
+          </div>
+        </div>
+      </div>
+      <p class="mb-0 mt-1" style="font-size:0.78rem;opacity:0.7;">Estimación referencial. Condiciones finales sujetas a evaluación bancaria.</p>
+    </div>
+
+    <!-- Aviso si no hay precio -->
+    <div data-sim-sin-precio class="d-none p-4 text-center text-muted">
+      <i class="bi bi-exclamation-circle fs-4 d-block mb-2"></i>
+      Precio en UF no disponible para esta propiedad.
+    </div>
+
+    <!-- Cuerpo con sliders -->
+    <div data-sim-body class="sim-body">
+
+      <!-- Slider: % Pie -->
+      <div class="sim-range-group">
+        <div class="sim-range-label">
+          <span><i class="bi bi-piggy-bank me-1"></i>Pie inicial</span>
+          <span class="sim-range-value" data-display-pie>20%</span>
+        </div>
+        <input type="range" data-sim-pie min="5" max="50" step="1" value="20"
+               aria-label="Porcentaje de pie">
+        <div class="d-flex justify-content-between" style="font-size:0.7rem;color:#adb5bd;">
+          <span>5%</span><span>50%</span>
+        </div>
+      </div>
+
+      <!-- Slider: Plazo -->
+      <div class="sim-range-group">
+        <div class="sim-range-label">
+          <span><i class="bi bi-calendar3 me-1"></i>Plazo</span>
+          <span class="sim-range-value" data-display-plazo>20 años</span>
+        </div>
+        <input type="range" data-sim-plazo min="5" max="30" step="1" value="20"
+               aria-label="Plazo en años">
+        <div class="d-flex justify-content-between" style="font-size:0.7rem;color:#adb5bd;">
+          <span>5 años</span><span>30 años</span>
+        </div>
+      </div>
+
+      <!-- Slider: Tasa -->
+      <div class="sim-range-group mb-0">
+        <div class="sim-range-label">
+          <span><i class="bi bi-percent me-1"></i>Tasa de interés</span>
+          <span class="sim-range-value" data-display-tasa>4.50% anual</span>
+        </div>
+        <input type="range" data-sim-tasa min="1" max="12" step="0.25" value="4.5"
+               aria-label="Tasa de interés anual">
+        <div class="d-flex justify-content-between" style="font-size:0.7rem;color:#adb5bd;">
+          <span>1%</span><span>12%</span>
+        </div>
+      </div>
+
+    </div><!-- /sim-body -->
+
+    <!-- Resultados -->
+    <div class="sim-results">
+
+      <!-- Cuota mensual destacada -->
+      <div class="sim-cuota-destacada">
+        <div class="cuota-label">Cuota mensual estimada</div>
+        <div class="cuota-uf" data-res-cuota-uf>— UF</div>
+        <div class="cuota-clp" data-res-cuota-clp></div>
+        <div class="cuota-periodo" data-res-ncuotas></div>
+      </div>
+
+      <!-- Fila: Pie -->
+      <div class="sim-result-card">
+        <span class="sim-label"><i class="bi bi-cash-stack me-1"></i>Pie requerido</span>
+        <div>
+          <div class="sim-value-uf" data-res-pie-uf>—</div>
+          <div class="sim-value-clp" data-res-pie-clp></div>
+        </div>
+      </div>
+
+      <!-- Fila: Monto crédito -->
+      <div class="sim-result-card">
+        <span class="sim-label"><i class="bi bi-bank2 me-1"></i>Monto a financiar</span>
+        <div>
+          <div class="sim-value-uf" data-res-credito-uf>—</div>
+          <div class="sim-value-clp" data-res-credito-clp></div>
+        </div>
+      </div>
+
+      <!-- Nota disclaimer -->
+      <div class="sim-disclaimer d-flex justify-content-between align-items-start">
+        <span>
+          <i class="bi bi-info-circle me-1"></i>
+          Cálculo referencial (sistema francés). No constituye oferta crediticia.
+        </span>
+        <a href="{% url 'core:simulador' %}" class="sim-cta-link ms-3 text-nowrap">
+          <i class="bi bi-arrow-right-circle"></i> Simulador completo
+        </a>
+      </div>
+
+      <!-- Badge advertencia tasa inusual (oculto por defecto) -->
+      <div data-sim-disclaimer class="d-none mt-2">
+        <div class="alert alert-warning py-1 px-2 mb-0" style="font-size:0.72rem;">
+          <i class="bi bi-exclamation-triangle me-1"></i>
+          La tasa seleccionada es inusual. Consulta con tu banco.
+        </div>
+      </div>
+
+    </div><!-- /sim-results -->
+  </div><!-- /kcm-simulador -->
+</section>
+{% endif %}
+
+<!-- =======================
      DESCRIPCIÓN + MAPA (fila inferior)
      IZQ: Descripción  ·  DER: Ubicación
 ======================= -->
@@ -429,5 +558,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
+{% if prop.tipo_operacion == 'venta' and prop.precio_uf %}
+{% load static %}
+<script src="{% static 'core/js/simulador.js' %}" defer></script>
+{% endif %}
 
 {% endblock %}
