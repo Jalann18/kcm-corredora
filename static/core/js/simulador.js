@@ -115,16 +115,49 @@
      INICIALIZACIÓN DE CADA WIDGET .kcm-simulador
   ===================================================== */
   function initSimulador(sim) {
-    // Si no hay precio, no renderizamos (propiedad sin UF definido)
-    const precioUF = parseFloat(sim.dataset.precioUf);
+    let precioUF = parseFloat(sim.dataset.precioUf);
+    const precioCLP = parseFloat(sim.dataset.precioClp);
+
+    // Si no hay precio en UF pero sí hay precio en CLP, calculamos UF dinámicamente
+    if (!Number.isFinite(precioUF) && Number.isFinite(precioCLP) && precioCLP > 0) {
+      if (Number.isFinite(window.__UF_HOY_CLP) && window.__UF_HOY_CLP > 0) {
+        precioUF = precioCLP / window.__UF_HOY_CLP;
+        sim.dataset.precioUf = precioUF.toString();
+      } else {
+        // Esperar a que se cargue el tipo de cambio del script global
+        const checkUF = setInterval(() => {
+          if (Number.isFinite(window.__UF_HOY_CLP) && window.__UF_HOY_CLP > 0) {
+            clearInterval(checkUF);
+            sim.dataset.precioUf = (precioCLP / window.__UF_HOY_CLP).toString();
+            // Re-ejecutar inicialización con el precioUF disponible
+            initSimulador(sim);
+          }
+        }, 100);
+        setTimeout(() => clearInterval(checkUF), 10000);
+        return;
+      }
+    }
+
+    // Si no tenemos ningún precio válido, ocultamos el simulador
     if (!Number.isFinite(precioUF) || precioUF <= 0) {
       sim.querySelector("[data-sim-sin-precio]")?.classList.remove("d-none");
       sim.querySelector("[data-sim-body]")?.classList.add("d-none");
       return;
     }
 
+    // Asegurarse de mostrar el simulador si estaba oculto
+    sim.querySelector("[data-sim-sin-precio]")?.classList.add("d-none");
+    sim.querySelector("[data-sim-body]")?.classList.remove("d-none");
+
     // Mostrar precio en la cabecera del widget
     setText(sim, "[data-res-precio-uf]", fmtUF(precioUF));
+
+    // Actualizar dinámicamente el enlace a la página completa del simulador si existe
+    const fullSimLink = sim.querySelector(".sim-cta-link");
+    if (fullSimLink) {
+      const baseUrl = fullSimLink.getAttribute("href").split("?")[0];
+      fullSimLink.setAttribute("href", `${baseUrl}?precio_uf=${Math.round(precioUF)}`);
+    }
 
     // Aplicar defaults
     const pieInput   = sim.querySelector("[data-sim-pie]");
@@ -151,7 +184,6 @@
         clearInterval(observer);
       }
     }, 400);
-    // Limpiar a los 10s para no iterar infinito
     setTimeout(() => clearInterval(observer), 10000);
   }
 

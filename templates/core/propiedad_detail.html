@@ -203,13 +203,13 @@
      SIMULADOR DE CRÉDITO HIPOTECARIO
      (solo propiedades en venta con precio UF)
 ======================= -->
-{% if prop.tipo_operacion == 'venta' and prop.precio_uf %}
+{% if prop.tipo_operacion == 'venta' and prop.precio_uf or prop.tipo_operacion == 'venta' and prop.precio_clp %}
 <section class="mt-4" id="simulador-credito">
   <h4 class="mb-3">
     <i class="bi bi-calculator me-2"></i> Simulador de Crédito Hipotecario
   </h4>
 
-  <div class="kcm-simulador" data-precio-uf="{{ prop.precio_uf }}">
+  <div class="kcm-simulador" {% if prop.precio_uf %}data-precio-uf="{{ prop.precio_uf }}"{% endif %} {% if prop.precio_clp %}data-precio-clp="{{ prop.precio_clp }}"{% endif %}>
 
     <!-- Cabecera del widget -->
     <div class="sim-header">
@@ -218,7 +218,7 @@
         <div>
           <div class="fw-bold" style="font-size:1rem;">Simula tu financiamiento</div>
           <div class="sim-precio-badge mt-1">
-            Propiedad: <strong data-res-precio-uf>{{ prop.precio_uf|floatformat:"-2" }} UF</strong>
+            Propiedad: <strong data-res-precio-uf>{% if prop.precio_uf %}{{ prop.precio_uf|floatformat:"-2" }} UF{% else %}Calculando...{% endif %}</strong>
           </div>
         </div>
       </div>
@@ -559,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-{% if prop.tipo_operacion == 'venta' and prop.precio_uf %}
+{% if prop.tipo_operacion == 'venta' and prop.precio_uf or prop.tipo_operacion == 'venta' and prop.precio_clp %}
 {% load static %}
 <script src="{% static 'core/js/simulador.js' %}" defer></script>
 {% endif %}
