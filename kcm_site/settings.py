@@ -205,7 +205,8 @@ JAZZMIN_SETTINGS = {
     "site_title": "KCM Admin",
     "site_header": "Gestión KCM",
     "site_brand": "KCM Propiedades",
-    "site_logo": "core/img/logo.webp", # Si existe
+    "site_logo": "core/img/logo-blanco.webp", # Logo transparente y blanco
+    "login_logo": "core/img/logo-blanco.webp",
     "welcome_sign": "Bienvenido al Gestor Inmobiliario",
     "copyright": "KCM Corredora",
     "show_ui_builder": False,
