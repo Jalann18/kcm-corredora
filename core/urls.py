@@ -12,4 +12,6 @@ urlpatterns = [
     path('quiero-publicar/', views.quiero_publicar, name='quiero_publicar'),
     path('nosotros/', views.nosotros, name='nosotros'),
     path('simulador/', views.simulador_hipotecario, name='simulador'),
+    path('estimador/', views.estimador_view, name='estimador'),
+    path('api/tasacion/', views.api_tasacion, name='api_tasacion'),
 ]

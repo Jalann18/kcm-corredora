@@ -1,0 +1,171 @@
+================================================================================
+          GUIÓN NARRATIVO INDIVIDUAL PARA EL VIDEO DE LA ENTREGA 3
+     PROYECTO: KCM CORREDORA - SPRINT 1 DEMO (NARRADO POR ALAN JEREZ)
+================================================================================
+
+DURACIÓN ESTIMADA: ~8 a 10 Minutos
+NARRADOR ÚNICO: Alan Jerez (En representación del Equipo Scrum)
+ROLES DEL EQUIPO MENCIONADOS EN EL VIDEO:
+- SCRUM MASTER (SM): Diego Muñoz (Facilitó métricas y retrospectiva)
+- PRODUCT OWNER (PO) & QA: Andrés Labra (Definió objetivos y lideró las pruebas unitarias)
+- EQUIPO DE DESARROLLO (DEV TEAM): Aldo Morales (Backend y Django Admin) y Alan Jerez (Frontend y UX)
+
+--------------------------------------------------------------------------------
+ESTRUCTURA DE NARRACIÓN (ALAN JEREZ):
+1. INTRODUCCIÓN, ROLES Y CONTEXTO - [0:00 - 1:15]
+2. ANÁLISIS DE MÉTRICAS SCRUM (FACILITADAS POR EL SM) - [1:15 - 2:30]
+3. DEMO PANEL DE ADMINISTRACIÓN SEGURO Y CRUD DRAG & DROP (BACKEND) - [2:30 - 4:45]
+4. VALIDACIÓN DE VALOR E INCREMENTO DESDE LA PERSPECTIVA DEL PO - [4:45 - 5:30]
+5. DEMO VITRINA PÚBLICA, FILTROS, PAGINACIÓN Y MENSAJES/LEADS (FRONTEND) - [5:30 - 7:30]
+6. CONTROL DE CALIDAD Y PRUEBAS UNITARIAS (QA) - [7:30 - 8:30]
+7. RETROSPECTIVA SPRINT 1 Y PLANIFICACIÓN SPRINT 2 - [8:30 - 9:30]
+--------------------------------------------------------------------------------
+
+================================================================================
+PARTE 1: INTRODUCCIÓN, ROLES Y CONTEXTO
+================================================================================
+[PANTALLA: Diapositiva de portada del video. Muestra el logo de KCM Corredora, el título "Entrega 3: Cierre del Sprint 1 y Planificación Sprint 2", y la lista de integrantes con sus roles Scrum asignados.]
+
+ALAN JEREZ (Narrador):
+"Estimado profesor y compañeros, bienvenidos a la presentación de la Entrega 3 de nuestro proyecto para KCM Corredora, una plataforma web moderna para el corretaje de propiedades en la Región Metropolitana. 
+
+Mi nombre es Alan Jerez y en esta oportunidad tengo el agrado de exponer en representación de nuestro equipo Scrum, el cual está conformado por:
+- Diego Muñoz, quien ejerce el rol de Scrum Master, guiando nuestro proceso y facilitando las ceremonias.
+- Andrés Labra, como nuestro Product Owner y encargado de QA, velando por los requerimientos del negocio y la calidad del código.
+- Y en el Equipo de Desarrollo, mi compañero Aldo Morales junto a mí, enfocados en materializar la visión técnica del producto.
+
+El objetivo principal que nos propusimos para este Sprint 1 fue configurar las bases del proyecto Django, definir los modelos de datos esenciales para propiedades y contactos, y dejar 100% operativo un panel de administración seguro con un CRUD completo de propiedades, respaldado por pruebas unitarias robustas y una vitrina pública completamente funcional."
+
+================================================================================
+PARTE 2: ANÁLISIS DE MÉTRICAS SCRUM
+================================================================================
+[PANTALLA: Se muestra la gráfica de Burndown Chart del Sprint 1 y la tabla de Velocity en la presentación de diapositivas.]
+
+ALAN JEREZ (Narrador):
+"Comenzando con la gestión y métricas del sprint, las cuales fueron consolidadas y facilitadas por nuestro Scrum Master, Diego Muñoz, analizaremos el rendimiento de nuestro equipo durante este primer ciclo de trabajo.
+
+Para este Sprint 1, planificamos un total de 17 Story Points distribuidos en 7 tareas técnicas críticas, derivadas de las 4 Historias de Usuario priorizadas por nuestro Product Owner. Al término del sprint, logramos completar exitosamente el 100% de los puntos comprometidos, fijando nuestra velocidad inicial en 17 Story Points estables.
+
+Si analizamos nuestro gráfico de Burndown Chart, podemos apreciar una reducción constante y progresiva del esfuerzo pendiente a lo largo de las dos semanas del sprint. Durante los primeros días, nos enfocamos en habilitar la infraestructura base del proyecto, configurar las URLs principales y diseñar el modelo físico de la base de datos. Para la segunda mitad del ciclo, quemamos rápidamente los puntos restantes al implementar el CRUD avanzado con carga múltiple de imágenes, la vista del catálogo público y el formulario de contacto en el frontend. El hecho de haber cerrado todas las tareas planificadas a tiempo refleja una excelente precisión y sincronía en la estimación del equipo."
+
+================================================================================
+PARTE 3: DEMO PANEL DE ADMINISTRACIÓN SEGURO Y CRUD DRAG & DROP
+================================================================================
+[PANTALLA: La pantalla cambia al navegador web. Se muestra la pantalla de inicio de sesión de Django Admin (/admin). Alan digita las credenciales de administrador y accede al Dashboard central.]
+
+ALAN JEREZ (Narrador):
+"Pasando al desarrollo técnico construido en el backend de nuestra aplicación, les mostraré la administración segura e interna de KCM Corredora, un módulo clave desarrollado principalmente por mi compañero Aldo Morales.
+
+En primer lugar, evidenciamos el cumplimiento de la Historia de Usuario 4: acceder a un panel administrativo seguro. Hemos implementado la autenticación nativa de Django para restringir el acceso únicamente a usuarios autorizados del staff, protegiendo la seguridad e integridad de la información del negocio.
+
+Una vez iniciada la sesión, accedemos al panel central donde gestionamos los modelos principales de este sprint: las 'Propiedades' y los 'Mensajes de Clientes' (también llamados Leads). 
+
+Para evidenciar la Historia de Usuario 1, que consiste en publicar propiedades con fotos y descripción, simularé la creación de una nueva propiedad haciendo clic en 'Añadir Propiedad'."
+
+[PANTALLA: Se muestra el formulario de creación de propiedades. La pantalla muestra los fieldsets ordenados: '📝 Datos Principales', '💰 Precio', '📍 Ubicación', '🏠 Características', y '🖼️ Portada y Galería Múltiple'. Alan completa rápidamente los campos: Título ('Departamento Amoblado en Providencia'), Descripción ('Hermoso departamento de 2 dormitorios con excelente conectividad...'), Operación ('Arriendo'), Tipo ('Departamento'), Comuna ('Providencia'), Precios en UF y CLP, Características físicas.]
+
+ALAN JEREZ (Narrador):
+"Con el fin de ofrecer una experiencia ágil al usuario administrador, organizamos los campos del modelo 'Propiedad' en secciones colapsables y limpias por relevancia temática: Datos Principales, Precios, Ubicación y Características físicas. Esto agiliza la catalogación de activos y reduce la fatiga visual.
+
+Para la carga de imágenes, definimos un campo para la 'Portada' o imagen principal. Adicionalmente, implementamos una mejora avanzada de usabilidad para simplificar la carga masiva: el campo 'Fotos Múltiples'. Este campo permite seleccionar o arrastrar varias imágenes al mismo tiempo desde nuestra computadora."
+
+[PANTALLA: Alan arrastra 3 imágenes locales al campo 'Fotos Múltiples' y hace clic en 'Guardar'. La propiedad se guarda con éxito. Luego, entra de nuevo a la propiedad recién creada y hace scroll hasta la sección inferior de 'Galería de fotos'.]
+
+ALAN JEREZ (Narrador):
+"Una vez que guardamos la propiedad, estas fotos se asocian de manera automática al modelo relacionado 'ImagenPropiedad'. 
+
+Pero quisimos ir más allá del CRUD básico de la Historia de Usuario 2. Para brindar una experiencia premium, desarrollamos un sistema interactivo de ordenamiento visual mediante **Drag & Drop** dentro del mismo Django Admin. 
+
+Observen cómo, al posicionarme sobre las filas de la galería de fotos, puedo arrastrar físicamente una imagen hacia arriba o hacia abajo para cambiar su prioridad de forma dinámica. Este orden se actualiza de inmediato gracias a nuestro script personalizado 'drag_drop.js', definiendo con total precisión en qué orden se renderizará la galería en la vitrina pública."
+
+[PANTALLA: Alan arrastra la segunda foto a la primera posición y hace clic en Guardar. El cambio se persiste con éxito. Luego vuelve a la lista general de propiedades, edita un valor de precio en UF, y finalmente la elimina para mostrar el CRUD completo de la Historia de Usuario 2.]
+
+ALAN JEREZ (Narrador):
+"Con esto evidenciamos que el flujo administrativo de edición, actualización y eliminación cumple con estándares de seguridad, permitiendo que la corredora mantenga su catálogo de propiedades al día con solo un par de clics."
+
+================================================================================
+PARTE 4: VALIDACIÓN DE VALOR E INCREMENTO DESDE LA PERSPECTIVA DEL PO
+================================================================================
+[PANTALLA: La pantalla muestra una diapositiva que detalla los Criterios de Aceptación de las HU-01 y HU-02.]
+
+ALAN JEREZ (Narrador):
+"Desde la perspectiva del negocio, nuestro Product Owner, Andrés Labra, ha validado exhaustivamente cada una de estas funcionalidades de cara a los criterios de aceptación previamente establecidos con los stakeholders.
+
+La administración ágil y el ordenamiento Drag & Drop resuelven el principal cuello de botella operativo de la corredora, permitiendo publicar propiedades de forma rápida e intuitiva. Elementos clave como la autogeneración del slug amigable para SEO, el control de comunas estrictamente enfocado en la Región Metropolitana y el almacenamiento estructurado de multimedia se cumplen rigurosamente. Por lo tanto, el incremento de este sprint queda oficialmente validado y aceptado para su despliegue comercial."
+
+================================================================================
+PARTE 5: DEMO VITRINA PÚBLICA, FILTROS, PAGINACIÓN Y MENSAJES/LEADS
+================================================================================
+[PANTALLA: Se muestra la vitrina pública en el navegador web (home y catálogo público). La interfaz es moderna, con tipografías limpias (Inter/Outfit), un banner dinámico y tarjetas visuales de propiedades con sus imágenes de portada.]
+
+ALAN JEREZ (Narrador):
+"Ahora pasamos a la experiencia pública en el frontend de KCM Corredora, área en la cual me enfoqué principalmente y que evidencia la Historia de Usuario 5: ver propiedad publicada en la vitrina.
+
+Al ingresar al portal web, somos recibidos por un diseño moderno y fluido. Contamos con un carrusel dinámico impulsado por el modelo 'CarouselSlide' configurable desde el admin de Django, con llamadas a la acción directas para captar la atención de los prospectos.
+
+Si nos desplazamos hacia la Vitrina de Propiedades, nos encontramos con una rejilla responsive. El listado posee una paginación inteligente de 12 elementos por página para asegurar tiempos de carga rápidos, ordenando automáticamente las propiedades destacadas en primer lugar y luego por fecha de publicación."
+
+[PANTALLA: Alan muestra el panel lateral de filtros avanzados. Selecciona 'Tipo de Operación: Arriendo', 'Tipo de Propiedad: Departamento', escribe en el buscador de texto 'Providencia' y hace clic en 'Filtrar'. La página se recarga mostrando únicamente las propiedades que calzan con la búsqueda.]
+
+ALAN JEREZ (Narrador):
+"Para optimizar la experiencia de búsqueda de los clientes, diseñamos e implementamos filtros avanzados que actúan directamente sobre la base de datos: filtros por palabras clave, tipo de operación, tipo de propiedad, comuna exacta de la RM, rangos de precio en UF o CLP, y cantidad mínima de dormitorios. Todos los filtros se parametrizan limpiamente en la URL, facilitando que el usuario pueda compartir sus búsquedas de forma directa."
+
+[PANTALLA: Alan hace clic en una propiedad de la lista para ir a su vista de Detalle. Muestra la galería con las imágenes ordenadas por Drag & Drop tal como se definió en el Admin, la descripción completa, y hace clic en el botón para abrir el modal del formulario de contacto.]
+
+ALAN JEREZ (Narrador):
+"Al acceder al detalle, visualizamos la ficha completa de la propiedad con su información estructurada y la galería de fotos en alta resolución renderizada en el orden exacto que establecimos previamente. 
+
+Si un cliente está interesado en recibir información, puede enviar una solicitud de contacto directamente desde este modal. Vamos a realizar una prueba en vivo completando el formulario de contacto para demostrar la captura del lead."
+
+[PANTALLA: Alan completa el formulario de contacto con datos de prueba: Nombre ('Juan Pérez'), Email ('juan.perez@email.com'), Teléfono ('+56998765432'), Mensaje ('Hola, me interesa agendar una visita a este departamento para este sábado.') y envía el formulario. Aparece un mensaje flotante informando que el mensaje se envió con éxito. Luego, Alan cambia rápidamente a la pestaña de Django Admin, sección Leads, y muestra el nuevo registro 'Juan Pérez' ingresado con toda su información.]
+
+ALAN JEREZ (Narrador):
+"El formulario captura de manera segura los datos en nuestro modelo 'Lead'. Como pueden observar, el mensaje se registra de forma instantánea en la base de datos y se notifica al panel del agente para su seguimiento inmediato, cerrando de punta a punta un flujo de negocio robusto y profesional."
+
+================================================================================
+PARTE 6: CONTROL DE CALIDAD Y PRUEBAS UNITARIAS
+================================================================================
+[PANTALLA: Se comparte la ventana de la terminal de comandos (VS Code) en el proyecto KCM. Se visualiza el comando 'python manage.py test' siendo ingresado.]
+
+ALAN JEREZ (Narrador):
+"Para asegurar la estabilidad técnica a largo plazo y evitar regresiones, el equipo no se limitó a pruebas manuales. Nuestro encargado de QA, Andrés Labra, lideró el diseño y desarrollo de una suite de pruebas automatizadas en Django.
+
+A continuación, ejecutaremos el comando 'python manage.py test' en vivo en nuestra terminal."
+
+[PANTALLA: Alan presiona Enter en la consola. La consola ejecuta las pruebas y rápidamente muestra el resultado final con éxito: 'Ran 22 tests in 1.452s. OK'.]
+
+ALAN JEREZ (Narrador):
+"¡Excelente! Como pueden observar en pantalla, se ejecutaron 22 pruebas unitarias de manera exitosa, logrando un 100% de aprobación sin fallos ni advertencias. 
+
+Esta robusta batería cubre de manera exhaustiva:
+1. Pruebas de Modelos: validación de los métodos de representación en texto, autogeneración y desambiguación de slugs amigables, filtrado lógico de propiedades publicadas y consistencia de las relaciones.
+2. Pruebas de Vistas: verificación de códigos de respuesta HTTP 200 en rutas críticas y redirecciones 404 en casos de error.
+3. Pruebas de Filtros y Paginación: simulación de búsquedas, ordenamiento dinámico de propiedades destacadas y límites de paginación.
+4. Pruebas de Leads: envío exitoso de formularios POST y persistencia en base de datos.
+5. Pruebas del Admin: validación de accesos seguros y subida simulada de archivos multimedia.
+
+Esto nos otorga la absoluta tranquilidad de que la base de código construida es sólida, escalable y libre de regresiones."
+
+================================================================================
+PARTE 7: RETROSPECTIVA SPRINT 1 Y PLANIFICACIÓN SPRINT 2
+================================================================================
+[PANTALLA: Diapositiva con los puntos de la Sprint Retrospective del Sprint 1 y los objetivos y backlog del Sprint 2.]
+
+ALAN JEREZ (Narrador):
+"Para concluir nuestra presentación, comparto los resultados de nuestra sesión de Sprint Retrospective del Sprint 1, guiada por Diego Muñoz. 
+
+Como fortalezas principales, destacamos nuestra excelente comunicación técnica, el apego riguroso a las convenciones de Django y el acierto de haber implementado la funcionalidad avanzada de Drag & Drop para simplificar el flujo del usuario administrativo. Como áreas de mejora para el próximo ciclo, nos propusimos definir tareas aún más granulares en el Sprint Backlog para equilibrar la distribución de puntos de historia y optimizar las revisiones de código cruzadas.
+
+De cara al Sprint 2, nuestro Sprint Goal está claramente definido y alineado estratégicamente:
+'Integrar herramientas interactivas de estimación financiera de propiedades y simulación de créditos hipotecarios directamente en el frontend, garantizando la consistencia y rendimiento del catálogo'.
+
+Las historias seleccionadas para este próximo sprint son:
+- HU-07: Estimador dinámico de precios de propiedades en UF/CLP basado en comunas.
+- HU-08: Simulador de crédito hipotecario interactivo con cálculo de dividendos mensuales según tasa y plazo.
+
+Con esto cerramos un Sprint 1 sumamente exitoso, sentando bases metodológicas e ingenieriles sólidas para continuar impulsando el éxito de KCM Corredora. 
+
+Muchas gracias por su atención."
+
+[PANTALLA: Diapositiva de cierre con el logo de KCM Corredora y el mensaje "¡Muchas Gracias!"]
+================================================================================

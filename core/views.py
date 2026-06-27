@@ -6,6 +6,9 @@ from .models import Propiedad, CarouselSlide, Lead
 from .forms import BusquedaPropiedadForm, LeadForm, QuieroPublicarForm
 from django.core.paginator import Paginator
 from urllib.parse import urlencode
+from django.http import JsonResponse
+import json
+from .servicios_tasacion import estimar_precio_propiedad
 
 
 def home(request):
@@ -224,3 +227,62 @@ def simulador_hipotecario(request):
         "core/simulador.html",
         {"precio_uf_inicial": precio_uf_inicial},
     )
+
+from .models import Propiedad, CarouselSlide, Lead, COMUNAS_RM
+
+def estimador_view(request):
+    """
+    Página del Estimador de Precios (Tasador Virtual).
+    Es un wizard interactivo para tasar la propiedad y captar el lead.
+    """
+    return render(request, "core/estimador.html", {"comunas": COMUNAS_RM})
+
+def api_tasacion(request):
+    """
+    Endpoint JSON que recibe los datos de la propiedad (por POST o GET)
+    y devuelve el rango de precio estimado en UF.
+    """
+    # Intentar leer desde POST JSON primero, sino POST normal, sino GET
+    if request.method == "POST":
+        try:
+            datos = json.loads(request.body)
+        except json.JSONDecodeError:
+            datos = request.POST.dict()
+    else:
+        datos = request.GET.dict()
+
+    if not datos.get("comuna"):
+        return JsonResponse({"error": "Faltan datos de la comuna"}, status=400)
+
+    try:
+        precio_min, precio_max = estimar_precio_propiedad(datos)
+        
+        # Guardar el Lead si se envió información de contacto
+        nombre = datos.get("lead_nombre")
+        email = datos.get("lead_email")
+        if nombre and email:
+            telefono = datos.get("lead_telefono", "")
+            mensaje_tasacion = (
+                f"Consulta de Tasación:\n"
+                f"Comuna: {datos.get('comuna')}\n"
+                f"Tipo: {datos.get('tipo_propiedad')}\n"
+                f"Construidos: {datos.get('sup_construida')} m2\n"
+                f"Tasación sugerida: {precio_min} - {precio_max} UF"
+            )
+            Lead.objects.create(
+                propiedad=None,
+                nombre=nombre,
+                email=email,
+                telefono=telefono,
+                mensaje=mensaje_tasacion,
+                comuna=datos.get("comuna"),
+                origen="tasador_virtual"
+            )
+        
+        return JsonResponse({
+            "precio_min_uf": precio_min,
+            "precio_max_uf": precio_max
+        })
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
