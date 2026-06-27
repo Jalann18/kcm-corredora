@@ -209,6 +209,7 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Bienvenido al Gestor Inmobiliario",
     "copyright": "KCM Corredora",
     "show_ui_builder": False,
+    "custom_css": "core/css/admin.css",
     
     # --- MENÚ SUPERIOR DE ACCESO RÁPIDO ---
     "topmenu_links": [

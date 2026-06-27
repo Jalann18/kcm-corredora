@@ -1,0 +1,15 @@
+/* static/core/css/admin.css */
+
+/* Fix para el logo gigante en el login de Jazzmin */
+.login-box .login-logo img {
+    max-width: 250px !important;
+    height: auto !important;
+    margin-bottom: 20px;
+}
+
+/* Fix para el logo en la barra lateral por si acaso */
+.brand-link .brand-image {
+    max-height: 40px !important;
+    width: auto !important;
+    border-radius: 4px;
+}
