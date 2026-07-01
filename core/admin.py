@@ -21,8 +21,12 @@ class MultipleFileInput(forms.FileInput):
         super().__init__(default_attrs)
 
     def value_from_datadict(self, data, files, name):
-        # Retorna la lista completa de archivos (no solo el primero)
-        return files.getlist(name)
+        if hasattr(files, 'getlist'):
+            return files.getlist(name)
+        if files:
+            val = files.get(name)
+            return [val] if val else []
+        return []
 
 
 class MultipleFileField(forms.FileField):
@@ -54,7 +58,7 @@ class MultipleFileField(forms.FileField):
 # INLINE PARA IMÁGENES
 # ─────────────────────────────────────────────────────────────────────────────
 
-class ImagenPropiedadInline(SortableInlineAdminMixin, admin.TabularInline):
+class ImagenPropiedadInline(admin.TabularInline):
     model = ImagenPropiedad
     extra = 0
     verbose_name = "Foto de Galería"
@@ -159,6 +163,9 @@ class PropiedadAdmin(SortableAdminBase, admin.ModelAdmin):
             f'<span style="color:{color};font-weight:600;">{texto}</span>'
         )
     fotos_count.short_description = "Galería"
+
+    class Media:
+        js = ('core/js/drag_drop.js',)
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
