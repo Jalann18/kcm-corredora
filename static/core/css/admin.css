@@ -1,15 +1,120 @@
-/* static/core/css/admin.css */
+/* ============================================================
+   static/core/css/admin.css
+   Mejoras visuales del admin KCM sobre Jazzmin
+   ============================================================ */
 
-/* Fix para el logo gigante en el login de Jazzmin */
+/* ── Logo Login ─────────────────────────────────────────────── */
+.login-logo img,
 .login-box .login-logo img {
-    max-width: 250px !important;
+    max-width: 220px !important;
     height: auto !important;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
 }
 
-/* Fix para el logo en la barra lateral por si acaso */
+/* ── Logo Sidebar ───────────────────────────────────────────── */
 .brand-link .brand-image {
-    max-height: 40px !important;
+    max-height: 36px !important;
     width: auto !important;
     border-radius: 4px;
+}
+
+/* ── Fieldsets: cabecera más legible ────────────────────────── */
+.module h2,
+fieldset h2 {
+    font-size: 0.85rem !important;
+    letter-spacing: 0.04em;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    padding: 10px 14px !important;
+}
+
+/* ── Description de fieldsets: texto de ayuda limpio ───────── */
+fieldset .help,
+.form-row .help {
+    color: #6c757d;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    background: #f8f9fa;
+    border-left: 3px solid #0d6efd;
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 10px;
+}
+
+/* ── Input file múltiple: zona de drop más amigable ─────────── */
+input[type="file"][multiple] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px dashed #0d6efd;
+    border-radius: 8px;
+    background: #f0f4ff;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: #0d6efd;
+    transition: background 0.2s ease;
+}
+
+input[type="file"][multiple]:hover {
+    background: #e0e9ff;
+}
+
+/* ── Thumbnails de galería: más grandes y con sombra ─────────── */
+.field-preview img {
+    height: 90px !important;
+    width: 120px !important;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+}
+
+.field-preview img:hover {
+    transform: scale(1.05);
+}
+
+/* ── Tabla inline de imágenes: más espaciado ────────────────── */
+#imagenes-group .tabular.inline-related thead th {
+    background: #1a2035;
+    color: #fff;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 12px;
+}
+
+#imagenes-group .tabular.inline-related .form-row {
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+/* ── Botón de añadir fotos en inline ────────────────────────── */
+.add-row a {
+    font-weight: 600;
+    color: #0d6efd !important;
+}
+
+/* ── List display: badges de estado ─────────────────────────── */
+.field-publicada img,
+.field-destacada img {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+/* ── Submit row: botones más prominentes ────────────────────── */
+.submit-row input[type="submit"] {
+    font-weight: 700 !important;
+    letter-spacing: 0.03em;
+    border-radius: 6px !important;
+}
+
+/* ── Responsive: tabla de lista más legible en pantallas pequeñas ── */
+@media (max-width: 768px) {
+    #changelist table {
+        font-size: 0.8rem;
+    }
+    .field-preview img {
+        height: 60px !important;
+        width: 80px !important;
+    }
 }
