@@ -423,7 +423,11 @@
           paintUFToCLP();
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        console.warn("API mindicador.cl caída. Usando UF de respaldo.");
+        window.__UF_HOY_CLP = 37900; // Valor de respaldo aprox
+        paintUFToCLP();
+      })
       .finally(() => {
         ufFetchInFlight = null;
       });
