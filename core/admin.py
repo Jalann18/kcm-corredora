@@ -12,6 +12,8 @@ from .models import Propiedad, ImagenPropiedad, Agente, Lead, CarouselSlide
 
 class MultipleFileInput(forms.FileInput):
     """Widget que permite selección múltiple de archivos."""
+    allow_multiple_selected = True  # Requerido por Django para permitir múltiples archivos
+
     def __init__(self, attrs=None):
         default_attrs = {'multiple': True, 'accept': 'image/*'}
         if attrs:
